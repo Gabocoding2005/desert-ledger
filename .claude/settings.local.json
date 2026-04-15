@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m venv venv)",
+      "Bash(venvScriptspip install -r requirements.txt)",
+      "Bash(./venv/Scripts/pip.exe install -r requirements.txt)",
+      "Bash(./venv/Scripts/pip.exe uninstall -y marshmallow)",
+      "Bash(./venv/Scripts/pip.exe install \"marshmallow==3.23.*\")",
+      "Bash(./venv/Scripts/flask.exe db init)",
+      "Bash(./venv/Scripts/flask.exe db migrate -m \"initial migration\")",
+      "Bash(./venv/Scripts/flask.exe db upgrade)",
+      "Bash(npm run dev)",
+      "Bash(npm install --force)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

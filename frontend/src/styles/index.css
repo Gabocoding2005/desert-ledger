@@ -1,0 +1,139 @@
+@import 'tailwindcss';
+
+:root {
+  /* Desert Warm Core */
+  --camel-sand: #D4A957;
+  --camel-tobacco: #8B5E3C;
+  --camel-cream: #F5ECD7;
+  --camel-rust: #C1440E;
+  --camel-midnight: #1A1A2E;
+
+  /* Supporting */
+  --camel-sage: #6B7F5E;
+  --camel-sky: #7CAFC4;
+  --camel-dust: #E8D5B7;
+  --camel-charcoal: #2D2D2D;
+  --camel-paper: #FDF8EF;
+
+  /* Semantic */
+  --income-color: #4A7C59;
+  --expense-color: #C1440E;
+  --streak-color: #D4A957;
+
+  /* Fonts */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Source Serif 4', 'Times New Roman', serif;
+  --font-mono: 'DM Mono', 'Courier New', monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--camel-paper);
+  color: var(--camel-charcoal);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Paper texture */
+.paper-texture {
+  background-color: var(--camel-paper);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05' /%3E%3C/svg%3E");
+  position: relative;
+}
+
+.paper-texture::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 50%,
+    rgba(139, 94, 60, 0.08) 100%
+  );
+  pointer-events: none;
+}
+
+/* Stamp border effect */
+.stamp-border {
+  border: 3px solid var(--camel-tobacco);
+  box-shadow:
+    inset 0 0 0 1px var(--camel-sand),
+    4px 4px 0 var(--camel-tobacco);
+}
+
+/* Burned card effect */
+.burned-card {
+  border-radius: 2px;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.15),
+    0 0 0 1px var(--camel-dust);
+  background: linear-gradient(
+    135deg,
+    var(--camel-cream) 0%,
+    var(--camel-paper) 100%
+  );
+}
+
+/* Vintage button */
+.retro-button {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 1.5rem;
+  border: 3px solid var(--camel-tobacco);
+  background-color: var(--camel-sand);
+  color: var(--camel-charcoal);
+  box-shadow: 3px 3px 0 var(--camel-tobacco);
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.retro-button:hover {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 var(--camel-tobacco);
+}
+
+.retro-button:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 var(--camel-tobacco);
+}
+
+/* Display headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+/* Monospace numbers */
+.mono-number {
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--camel-cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--camel-tobacco);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--camel-sand);
+}
