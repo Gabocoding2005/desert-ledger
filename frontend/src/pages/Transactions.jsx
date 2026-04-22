@@ -58,37 +58,23 @@ export default function Transactions() {
       <PaperCard>
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
-          <div className="flex gap-3">
-            <button
-              onClick={() => setFilter({ type: 'all' })}
-              className={`px-4 py-2 font-body font-semibold rounded ${
-                filter.type === 'all'
-                  ? 'bg-camel-sand text-camel-charcoal'
-                  : 'bg-camel-cream text-camel-tobacco'
-              }`}
-            >
-              All
-            </button>
-            <button
-              onClick={() => setFilter({ type: 'income' })}
-              className={`px-4 py-2 font-body font-semibold rounded ${
-                filter.type === 'income'
-                  ? 'bg-income-color text-white'
-                  : 'bg-camel-cream text-camel-tobacco'
-              }`}
-            >
-              Income
-            </button>
-            <button
-              onClick={() => setFilter({ type: 'expense' })}
-              className={`px-4 py-2 font-body font-semibold rounded ${
-                filter.type === 'expense'
-                  ? 'bg-expense-color text-white'
-                  : 'bg-camel-cream text-camel-tobacco'
-              }`}
-            >
-              Expenses
-            </button>
+          <div className="flex gap-2">
+            {[
+              { id: 'all',     label: 'All',      active: 'bg-camel-sand text-camel-charcoal'    },
+              { id: 'income',  label: 'Income',   active: 'bg-income-color text-white'            },
+              { id: 'expense', label: 'Expenses', active: 'bg-expense-color text-white'           },
+            ].map(f => (
+              <button
+                key={f.id}
+                onClick={() => setFilter({ type: f.id })}
+                className={`px-4 py-2 font-body font-semibold border-2 border-camel-tobacco transition-colors ${
+                  filter.type === f.id ? f.active : 'bg-camel-cream text-camel-tobacco'
+                }`}
+                style={{ borderRadius: 'var(--radius-sm)' }}
+              >
+                {f.label}
+              </button>
+            ))}
           </div>
 
           <RetroButton onClick={() => setShowModal(true)}>

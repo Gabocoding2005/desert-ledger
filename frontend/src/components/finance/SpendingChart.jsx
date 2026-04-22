@@ -2,23 +2,24 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import PaperCard from '../ui/PaperCard'
 import { formatCurrency } from '../../utils/currency'
 
-export default function SpendingChart({ data }) {
-  const CustomTooltip = ({ active, payload }) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="bg-camel-cream p-3 border-2 border-camel-tobacco rounded-sm shadow-lg">
-          <p className="font-display font-bold text-camel-charcoal">
-            {payload[0].payload.name}
-          </p>
-          <p className="font-mono text-expense-color">
-            {formatCurrency(payload[0].value)}
-          </p>
-        </div>
-      )
-    }
-    return null
-  }
+function CustomTooltip({ active, payload }) {
+  if (!active || !payload?.length) return null
+  return (
+    <div
+      className="bg-camel-cream p-3 border-2 border-camel-tobacco shadow-lg"
+      style={{ borderRadius: 'var(--radius-sm)' }}
+    >
+      <p className="font-display font-bold text-camel-charcoal">
+        {payload[0].payload.name}
+      </p>
+      <p className="font-mono text-expense-color">
+        {formatCurrency(payload[0].value)}
+      </p>
+    </div>
+  )
+}
 
+export default function SpendingChart({ data }) {
   return (
     <PaperCard>
       <h3 className="font-display font-bold text-2xl text-camel-tobacco mb-4 uppercase">
@@ -26,19 +27,19 @@ export default function SpendingChart({ data }) {
       </h3>
 
       {data && data.length > 0 ? (
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={data}>
+        <ResponsiveContainer width="100%" height={280}>
+          <BarChart data={data} margin={{ top: 4, right: 4, left: 0, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#E8D5B7" />
             <XAxis
               dataKey="name"
-              tick={{ fill: '#2D2D2D', fontFamily: 'Source Serif 4' }}
+              tick={{ fill: '#2D2D2D', fontFamily: 'Source Serif 4', fontSize: 12 }}
             />
             <YAxis
-              tick={{ fill: '#2D2D2D', fontFamily: 'DM Mono' }}
-              tickFormatter={(value) => `$${value}`}
+              tick={{ fill: '#2D2D2D', fontFamily: 'DM Mono', fontSize: 11 }}
+              tickFormatter={v => `$${v}`}
             />
             <Tooltip content={<CustomTooltip />} />
-            <Bar dataKey="total" fill="#C1440E" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="total" fill="#C1440E" radius={0} />
           </BarChart>
         </ResponsiveContainer>
       ) : (

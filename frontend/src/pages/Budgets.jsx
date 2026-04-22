@@ -113,7 +113,8 @@ export default function Budgets() {
               .map((cat) => (
                 <div
                   key={cat.id}
-                  className="p-3 bg-camel-cream border border-camel-dust rounded text-center font-body text-sm text-camel-charcoal"
+                  className="p-3 bg-camel-cream border border-camel-dust text-center font-body text-sm text-camel-charcoal"
+                  style={{ borderRadius: 'var(--radius-sm)' }}
                 >
                   <span className="text-2xl">{cat.icon}</span>
                   <p className="mt-1">{cat.name}</p>

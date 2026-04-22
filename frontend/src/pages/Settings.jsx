@@ -68,7 +68,7 @@ export default function Settings() {
 
         {/* Category Form */}
         {showCategoryForm && (
-          <form onSubmit={handleCreateCategory} className="mb-6 p-4 bg-camel-cream rounded">
+          <form onSubmit={handleCreateCategory} className="mb-6 p-4 bg-camel-cream" style={{ borderRadius: 'var(--radius-sm)' }}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block font-body font-semibold text-camel-charcoal mb-2 text-sm">
@@ -79,7 +79,7 @@ export default function Settings() {
                   required
                   value={newCategory.name}
                   onChange={(e) => setNewCategory({ ...newCategory, name: e.target.value })}
-                  className="w-full px-3 py-2 border-2 border-camel-tobacco rounded font-body"
+                  className="w-full px-3 py-2 border-2 border-camel-tobacco font-body" style={{ borderRadius: 'var(--radius-md)' }}
                 />
               </div>
 
@@ -90,7 +90,7 @@ export default function Settings() {
                 <select
                   value={newCategory.type}
                   onChange={(e) => setNewCategory({ ...newCategory, type: e.target.value })}
-                  className="w-full px-3 py-2 border-2 border-camel-tobacco rounded font-body"
+                  className="w-full px-3 py-2 border-2 border-camel-tobacco font-body" style={{ borderRadius: 'var(--radius-md)' }}
                 >
                   <option value="income">Income</option>
                   <option value="expense">Expense</option>
@@ -106,7 +106,7 @@ export default function Settings() {
                   required
                   value={newCategory.icon}
                   onChange={(e) => setNewCategory({ ...newCategory, icon: e.target.value })}
-                  className="w-full px-3 py-2 border-2 border-camel-tobacco rounded font-body"
+                  className="w-full px-3 py-2 border-2 border-camel-tobacco font-body" style={{ borderRadius: 'var(--radius-md)' }}
                   maxLength="2"
                 />
               </div>
@@ -139,7 +139,7 @@ export default function Settings() {
             {incomeCategories.map((cat) => (
               <div
                 key={cat.id}
-                className="p-3 bg-camel-cream rounded border border-camel-dust flex items-center gap-2"
+                className="p-3 bg-camel-cream border border-camel-dust flex items-center gap-2" style={{ borderRadius: 'var(--radius-sm)' }}
               >
                 <span className="text-2xl">{cat.icon}</span>
                 <span className="font-body text-sm text-camel-charcoal">{cat.name}</span>
@@ -163,7 +163,7 @@ export default function Settings() {
             {expenseCategories.map((cat) => (
               <div
                 key={cat.id}
-                className="p-3 bg-camel-cream rounded border border-camel-dust flex items-center gap-2"
+                className="p-3 bg-camel-cream border border-camel-dust flex items-center gap-2" style={{ borderRadius: 'var(--radius-sm)' }}
               >
                 <span className="text-2xl">{cat.icon}</span>
                 <span className="font-body text-sm text-camel-charcoal">{cat.name}</span>

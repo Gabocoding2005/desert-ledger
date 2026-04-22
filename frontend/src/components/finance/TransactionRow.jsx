@@ -14,27 +14,23 @@ export default function TransactionRow({ transaction, onEdit, onDelete }) {
           <p className="font-body font-semibold text-camel-charcoal">
             {transaction.description || transaction.category?.name || 'Transaction'}
           </p>
-          <p className="text-sm text-camel-tobacco">
+          <p className="text-sm text-camel-tobacco font-body">
             {formatDateShort(transaction.date)} • {transaction.category?.name}
           </p>
         </div>
       </div>
 
       <div className="flex items-center gap-4">
-        <p
-          className={clsx(
-            'font-mono font-bold text-lg',
-            isIncome ? 'text-income-color' : 'text-expense-color'
-          )}
-        >
-          {isIncome ? '+' : '-'}{formatCurrency(transaction.amount)}
+        <p className={clsx('font-mono font-bold text-lg mono-number', isIncome ? 'text-income-color' : 'text-expense-color')}>
+          {isIncome ? '+' : '−'}{formatCurrency(transaction.amount)}
         </p>
 
         <div className="opacity-0 group-hover:opacity-100 transition-opacity flex gap-2">
           {onEdit && (
             <button
               onClick={() => onEdit(transaction)}
-              className="text-xs px-2 py-1 bg-camel-sand hover:bg-camel-tobacco hover:text-white transition-colors rounded"
+              className="text-xs px-2 py-1 bg-camel-sand hover:bg-camel-tobacco hover:text-white transition-colors font-body font-semibold"
+              style={{ borderRadius: 'var(--radius-sm)', border: '1px solid var(--camel-tobacco)' }}
             >
               Edit
             </button>
@@ -42,7 +38,8 @@ export default function TransactionRow({ transaction, onEdit, onDelete }) {
           {onDelete && (
             <button
               onClick={() => onDelete(transaction.id)}
-              className="text-xs px-2 py-1 bg-camel-rust hover:bg-red-700 text-white transition-colors rounded"
+              className="text-xs px-2 py-1 bg-camel-rust hover:bg-red-700 text-white transition-colors font-body"
+              style={{ borderRadius: 'var(--radius-sm)' }}
             >
               Delete
             </button>
