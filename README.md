@@ -15,11 +15,24 @@ Desert Ledger is a personal web app for tracking **finances** (income, expenses,
 
 ## 🚀 Quick Start
 
-### Prerequisites
+### 🐳 With Docker (Recommended)
 
-- **Python 3.12+**
-- **Node.js 18+** and **npm**
-- **Git**
+**Prerequisites:** Docker and Docker Compose
+
+```bash
+# Start all services (database, backend, frontend)
+docker-compose up
+
+# Access the app
+# Frontend: http://localhost:5173
+# Backend API: http://localhost:5000
+```
+
+For detailed Docker instructions, see [README-DOCKER.md](README-DOCKER.md)
+
+### 💻 Manual Setup
+
+**Prerequisites:** Python 3.12+, Node.js 18+, Git
 
 ### Backend Setup
 
@@ -74,32 +87,50 @@ The frontend will be available at **http://localhost:5173**
 
 ```
 desert-ledger/
-├── backend/
+├── backend/                     # Flask API
 │   ├── app/
 │   │   ├── __init__.py          # Flask app factory
-│   │   ├── config.py            # Configuration
+│   │   ├── config.py            # Configuration (SQLite/PostgreSQL)
 │   │   ├── extensions.py        # SQLAlchemy, Migrate, Marshmallow
 │   │   ├── models/              # Database models
 │   │   ├── routes/              # API endpoints
 │   │   └── schemas/             # Marshmallow schemas
-│   ├── instance/
-│   │   └── desert_ledger.db     # SQLite database
-│   ├── requirements.txt
-│   └── run.py                   # Entry point
+│   ├── migrations/              # Database migrations (auto-generated)
+│   ├── instance/                # Instance files (SQLite DB)
+│   ├── requirements.txt         # Python dependencies
+│   ├── run.py                   # Entry point
+│   ├── init_db.py              # Docker DB initialization
+│   ├── entrypoint.sh           # Docker entrypoint script
+│   ├── Dockerfile              # Backend container image
+│   └── .dockerignore
 │
-├── frontend/
+├── frontend/                    # React + Vite
+│   ├── public/
+│   │   └── assets/             # Logos and SVG assets
 │   ├── src/
-│   │   ├── components/          # React components
-│   │   ├── pages/               # Page components
-│   │   ├── stores/              # Zustand state management
-│   │   ├── api/                 # API client
-│   │   ├── utils/               # Helper functions
-│   │   └── styles/              # CSS and design system
+│   │   ├── components/
+│   │   │   ├── ui/             # RetroButton, PaperCard, etc.
+│   │   │   ├── layout/         # Sidebar, TopBar
+│   │   │   ├── finance/        # Finance-specific components
+│   │   │   └── habits/         # Habit tracking components
+│   │   ├── pages/              # Dashboard, Transactions, Budgets, Habits, Settings
+│   │   ├── stores/             # Zustand state management
+│   │   ├── api/                # Axios client
+│   │   ├── utils/              # currency.js, dates.js
+│   │   └── styles/             # Global CSS + design tokens
 │   ├── index.html
 │   ├── package.json
-│   └── vite.config.js
+│   ├── tailwind.config.js      # Tailwind + custom colors
+│   ├── vite.config.js
+│   ├── Dockerfile              # Frontend container image
+│   └── .dockerignore
 │
-└── README.md
+├── docker-compose.yml          # 3 services: db, backend, frontend
+├── .gitignore
+├── README.md                   # This file
+├── README-DOCKER.md            # Docker setup guide
+├── DESIGN-INTEGRATION.md       # Design system documentation
+└── APP_SPEC.md                 # Original spec (Spanish)
 ```
 
 ---
@@ -231,9 +262,13 @@ gunicorn -w 4 -b 0.0.0.0:5000 "app:create_app()"
 ## 📝 Notes
 
 - **Authentication:** Not included by default. This is designed as a single-user local app. Add Flask-Login for multi-user support.
-- **Database:** SQLite works perfectly for personal use. For multi-user deployment, migrate to PostgreSQL.
+- **Database:**
+  - Manual setup uses SQLite for simplicity
+  - Docker setup uses PostgreSQL for better multi-container support
+  - Config automatically detects `DATABASE_URL` environment variable
 - **Mobile:** Responsive design with mobile-first approach. Sidebar collapses to bottom nav on mobile.
 - **Dark Mode:** Not prioritized. The Camel aesthetic is inherently light/warm themed.
+- **Design System:** See [DESIGN-INTEGRATION.md](DESIGN-INTEGRATION.md) for complete design documentation
 
 ---
 

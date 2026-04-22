@@ -50,3 +50,9 @@ Thumbs.db
 .coverage
 htmlcov/
 .pytest_cache/
+
+# Design System Exports
+*design-system*/
+*design-system*.zip
+*handoff*/
+*handoff*.zip
