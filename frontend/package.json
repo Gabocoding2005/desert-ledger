@@ -10,14 +10,11 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.4",
-    "@tanstack/react-router": "^1.87.3",
-    "axios": "^1.7.9",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "recharts": "^2.15.0",
-    "zustand": "^5.0.2"
+    "recharts": "^2.15.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.4",

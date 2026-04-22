@@ -1,59 +1,26 @@
-import { useState, useEffect } from 'react'
-import { useFinanceStore } from '../stores/useFinanceStore'
+import { useState } from 'react'
 import PaperCard from '../components/ui/PaperCard'
 import RetroButton from '../components/ui/RetroButton'
 import BudgetCard from '../components/finance/BudgetCard'
 import BudgetModal from '../components/finance/BudgetModal'
-import { getCurrentMonthYear } from '../utils/dates'
-import { transactionsApi } from '../api/client'
 
-export default function Budgets() {
-  const [showModal, setShowModal] = useState(false)
+export default function Budgets({ budgets, categories, transactions, onSaveBudget }) {
+  const [showModal,     setShowModal]     = useState(false)
   const [editingBudget, setEditingBudget] = useState(null)
-  const [spending, setSpending] = useState({})
 
-  const {
-    budgets,
-    categories,
-    fetchBudgets,
-    fetchCategories,
-  } = useFinanceStore()
+  const spending = transactions
+    .filter((t) => t.type === 'expense')
+    .reduce((acc, t) => {
+      acc[t.category_id] = (acc[t.category_id] || 0) + t.amount
+      return acc
+    }, {})
 
-  useEffect(() => {
-    loadData()
-  }, [])
+  const handleEdit = (budget) => { setEditingBudget(budget); setShowModal(true) }
 
-  const loadData = async () => {
-    const { month, year } = getCurrentMonthYear()
-
-    await Promise.all([
-      fetchBudgets({ month, year }),
-      fetchCategories(),
-    ])
-
-    // Get spending per category
-    const txRes = await transactionsApi.getAll({ month, year, type: 'expense' })
-    const spendingMap = {}
-
-    txRes.data.forEach((tx) => {
-      if (!spendingMap[tx.category_id]) {
-        spendingMap[tx.category_id] = 0
-      }
-      spendingMap[tx.category_id] += tx.amount
-    })
-
-    setSpending(spendingMap)
-  }
-
-  const handleEdit = (budget) => {
-    setEditingBudget(budget)
-    setShowModal(true)
-  }
-
-  const handleCloseModal = () => {
+  const handleSave = async (data) => {
+    await onSaveBudget(data)
     setShowModal(false)
     setEditingBudget(null)
-    loadData()
   }
 
   const expenseCategories = categories.filter((c) => c.type === 'expense')
@@ -70,14 +37,10 @@ export default function Budgets() {
               Track your spending limits by category
             </p>
           </div>
-
-          <RetroButton onClick={() => setShowModal(true)}>
-            + Set Budget
-          </RetroButton>
+          <RetroButton onClick={() => setShowModal(true)}>+ Set Budget</RetroButton>
         </div>
       </PaperCard>
 
-      {/* Budget Cards */}
       {budgets.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {budgets.map((budget) => (
@@ -99,10 +62,7 @@ export default function Budgets() {
         </PaperCard>
       )}
 
-      {/* Categories without budgets */}
-      {expenseCategories.filter(
-        (cat) => !budgets.find((b) => b.category_id === cat.id)
-      ).length > 0 && (
+      {expenseCategories.filter((cat) => !budgets.find((b) => b.category_id === cat.id)).length > 0 && (
         <div className="mt-8">
           <h4 className="font-display font-bold text-lg text-camel-tobacco mb-4">
             Categories without budgets
@@ -124,12 +84,12 @@ export default function Budgets() {
         </div>
       )}
 
-      {/* Modal */}
       {showModal && (
         <BudgetModal
           budget={editingBudget}
           categories={expenseCategories}
-          onClose={handleCloseModal}
+          onSave={handleSave}
+          onClose={() => { setShowModal(false); setEditingBudget(null) }}
         />
       )}
     </div>

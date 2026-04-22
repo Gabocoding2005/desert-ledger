@@ -1,56 +1,22 @@
-import axios from 'axios'
+const BASE = (import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api'
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
-
-const apiClient = axios.create({
-  baseURL: API_BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-})
-
-// Transactions
-export const transactionsApi = {
-  getAll: (params) => apiClient.get('/transactions', { params }),
-  create: (data) => apiClient.post('/transactions', data),
-  update: (id, data) => apiClient.put(`/transactions/${id}`, data),
-  delete: (id) => apiClient.delete(`/transactions/${id}`),
+const r = async (method, path, body) => {
+  const opts = { method, headers: {} }
+  if (body != null) {
+    opts.headers['Content-Type'] = 'application/json'
+    opts.body = JSON.stringify(body)
+  }
+  const res = await fetch(BASE + path, opts)
+  if (!res.ok) throw new Error(`${res.status}`)
+  const text = await res.text()
+  return text ? JSON.parse(text) : null
 }
 
-// Categories
-export const categoriesApi = {
-  getAll: () => apiClient.get('/categories'),
-  create: (data) => apiClient.post('/categories', data),
-  update: (id, data) => apiClient.put(`/categories/${id}`, data),
-  delete: (id) => apiClient.delete(`/categories/${id}`),
-}
+const q = (p) => p ? '?' + new URLSearchParams(p) : ''
 
-// Budgets
-export const budgetsApi = {
-  getAll: (params) => apiClient.get('/budgets', { params }),
-  createOrUpdate: (data) => apiClient.post('/budgets', data),
-  delete: (id) => apiClient.delete(`/budgets/${id}`),
+export const api = {
+  get:    (path, params) => r('GET',    path + q(params)),
+  post:   (path, body)   => r('POST',   path, body),
+  put:    (path, body)   => r('PUT',    path, body),
+  delete: (path)         => r('DELETE', path),
 }
-
-// Habits
-export const habitsApi = {
-  getAll: () => apiClient.get('/habits'),
-  create: (data) => apiClient.post('/habits', data),
-  update: (id, data) => apiClient.put(`/habits/${id}`, data),
-  delete: (id) => apiClient.delete(`/habits/${id}`),
-}
-
-// Habit Logs
-export const habitLogsApi = {
-  getAll: (habitId, params) => apiClient.get(`/habits/${habitId}/logs`, { params }),
-  toggle: (habitId, data) => apiClient.post(`/habits/${habitId}/logs`, data),
-}
-
-// Dashboard
-export const dashboardApi = {
-  getSummary: (params) => apiClient.get('/dashboard/summary', { params }),
-  getTrends: () => apiClient.get('/dashboard/trends'),
-  getHabits: () => apiClient.get('/dashboard/habits'),
-}
-
-export default apiClient

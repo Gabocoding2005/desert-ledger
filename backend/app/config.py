@@ -8,10 +8,7 @@ class Config:
     """Base configuration"""
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev-secret-key-change-in-production'
 
-    # Database — PostgreSQL only
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
-    if not SQLALCHEMY_DATABASE_URI:
-        raise RuntimeError("DATABASE_URL environment variable is required")
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:////data/desert_ledger.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # CORS

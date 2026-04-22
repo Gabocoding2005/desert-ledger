@@ -1,21 +1,18 @@
 import { useState, useEffect } from 'react'
-import { useHabitStore } from '../../stores/useHabitStore'
 import RetroButton from '../ui/RetroButton'
 
 const COLORS = [
-  '#D4A957','#8B5E3C','#C1440E','#6B7F5E',
-  '#7CAFC4','#4A7C59','#E8442E','#9B59B6',
+  '#D4A957', '#8B5E3C', '#C1440E', '#6B7F5E',
+  '#7CAFC4', '#4A7C59', '#E8442E', '#9B59B6',
 ]
 
 const inputCls = 'w-full px-4 py-2 border-2 border-camel-tobacco bg-camel-cream font-body text-camel-charcoal outline-none'
 const inputRadius = { borderRadius: 'var(--radius-md)' }
 
-export default function HabitModal({ habit, onClose }) {
+export default function HabitModal({ habit, onSave, onDelete, onClose }) {
   const [formData, setFormData] = useState({
     name: '', description: '', frequency: 'daily', target_days: 7, color: '#D4A957',
   })
-
-  const { createHabit, updateHabit, deleteHabit } = useHabitStore()
 
   useEffect(() => {
     if (habit) {
@@ -32,12 +29,8 @@ export default function HabitModal({ habit, onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const data = { ...formData, target_days: parseInt(formData.target_days) }
-      if (habit) await updateHabit(habit.id, data)
-      else await createHabit(data)
-      onClose()
-    } catch (error) {
-      console.error('Error saving habit:', error)
+      await onSave({ ...formData, target_days: parseInt(formData.target_days) })
+    } catch {
       alert('Error saving habit')
     }
   }
@@ -45,10 +38,8 @@ export default function HabitModal({ habit, onClose }) {
   const handleDelete = async () => {
     if (confirm('Delete this habit?')) {
       try {
-        await deleteHabit(habit.id)
-        onClose()
-      } catch (error) {
-        console.error('Error deleting habit:', error)
+        await onDelete(habit.id)
+      } catch {
         alert('Error deleting habit')
       }
     }
@@ -64,9 +55,10 @@ export default function HabitModal({ habit, onClose }) {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block font-body font-semibold text-camel-charcoal mb-2">Habit Name</label>
-            <input type="text" required
+            <input
+              type="text" required
               value={formData.name}
-              onChange={e => setFormData({ ...formData, name: e.target.value })}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               className={inputCls}
               style={inputRadius}
               placeholder="e.g., Morning meditation"
@@ -75,9 +67,10 @@ export default function HabitModal({ habit, onClose }) {
 
           <div>
             <label className="block font-body font-semibold text-camel-charcoal mb-2">Description (optional)</label>
-            <textarea rows="2"
+            <textarea
+              rows="2"
               value={formData.description}
-              onChange={e => setFormData({ ...formData, description: e.target.value })}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               className={inputCls}
               style={inputRadius}
               placeholder="What does this habit mean to you?"
@@ -88,7 +81,7 @@ export default function HabitModal({ habit, onClose }) {
             <label className="block font-body font-semibold text-camel-charcoal mb-2">Frequency</label>
             <select
               value={formData.frequency}
-              onChange={e => setFormData({ ...formData, frequency: e.target.value })}
+              onChange={(e) => setFormData({ ...formData, frequency: e.target.value })}
               className={inputCls}
               style={inputRadius}
             >
@@ -100,9 +93,10 @@ export default function HabitModal({ habit, onClose }) {
           {formData.frequency === 'weekly' && (
             <div>
               <label className="block font-body font-semibold text-camel-charcoal mb-2">Target days per week</label>
-              <input type="number" min="1" max="7"
+              <input
+                type="number" min="1" max="7"
                 value={formData.target_days}
-                onChange={e => setFormData({ ...formData, target_days: e.target.value })}
+                onChange={(e) => setFormData({ ...formData, target_days: e.target.value })}
                 className={inputCls + ' font-mono'}
                 style={inputRadius}
               />
@@ -112,7 +106,7 @@ export default function HabitModal({ habit, onClose }) {
           <div>
             <label className="block font-body font-semibold text-camel-charcoal mb-2">Color</label>
             <div className="flex gap-2 flex-wrap">
-              {COLORS.map(color => (
+              {COLORS.map((color) => (
                 <button
                   key={color} type="button"
                   onClick={() => setFormData({ ...formData, color })}
@@ -134,7 +128,7 @@ export default function HabitModal({ habit, onClose }) {
             <RetroButton type="button" variant="secondary" onClick={onClose}>Cancel</RetroButton>
           </div>
 
-          {habit && (
+          {habit && onDelete && (
             <RetroButton type="button" variant="danger" onClick={handleDelete} className="w-full" size="sm">
               Delete Habit
             </RetroButton>

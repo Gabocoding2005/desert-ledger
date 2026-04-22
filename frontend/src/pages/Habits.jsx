@@ -1,75 +1,47 @@
 import { useState, useEffect } from 'react'
-import { useHabitStore } from '../stores/useHabitStore'
 import PaperCard from '../components/ui/PaperCard'
 import RetroButton from '../components/ui/RetroButton'
 import HabitCard from '../components/habits/HabitCard'
 import HabitModal from '../components/habits/HabitModal'
-import { getCurrentMonthYear } from '../utils/dates'
 
-export default function Habits() {
-  const [showModal, setShowModal] = useState(false)
-  const [editingHabit, setEditingHabit] = useState(null)
-  const [streaks, setStreaks] = useState({})
-
-  const { habits, habitLogs, fetchHabits, fetchHabitLogs, toggleHabitLog } = useHabitStore()
+export default function Habits({ habits, habitLogs, onCreate, onUpdate, onDelete, onToggle }) {
+  const [showModal,     setShowModal]     = useState(false)
+  const [editingHabit,  setEditingHabit]  = useState(null)
+  const [streaks,       setStreaks]       = useState({})
 
   useEffect(() => {
-    loadData()
-  }, [])
-
-  const loadData = async () => {
-    await fetchHabits()
-  }
-
-  useEffect(() => {
-    // Fetch logs for each habit
-    if (habits.length > 0) {
-      const { month, year } = getCurrentMonthYear()
-      habits.forEach(async (habit) => {
-        await fetchHabitLogs(habit.id, { month, year })
-      })
-    }
-  }, [habits])
-
-  useEffect(() => {
-    // Calculate streaks
-    const newStreaks = {}
+    const s = {}
     habits.forEach((habit) => {
       const logs = habitLogs[habit.id] || []
       let streak = 0
-      let checkDate = new Date()
-
+      const d = new Date()
       while (true) {
-        const dateStr = checkDate.toISOString().split('T')[0]
-        const log = logs.find((l) => l.date === dateStr && l.completed)
-
-        if (log) {
+        const dateStr = d.toISOString().split('T')[0]
+        if (logs.find((l) => l.date === dateStr && l.completed)) {
           streak++
-          checkDate.setDate(checkDate.getDate() - 1)
+          d.setDate(d.getDate() - 1)
         } else {
           break
         }
       }
-
-      newStreaks[habit.id] = streak
+      s[habit.id] = streak
     })
-
-    setStreaks(newStreaks)
+    setStreaks(s)
   }, [habits, habitLogs])
 
-  const handleToggle = async (habitId, data) => {
-    await toggleHabitLog(habitId, data)
-  }
+  const handleEdit = (habit) => { setEditingHabit(habit); setShowModal(true) }
 
-  const handleEdit = (habit) => {
-    setEditingHabit(habit)
-    setShowModal(true)
-  }
-
-  const handleCloseModal = () => {
+  const handleSave = async (data) => {
+    if (editingHabit) await onUpdate(editingHabit.id, data)
+    else              await onCreate(data)
     setShowModal(false)
     setEditingHabit(null)
-    loadData()
+  }
+
+  const handleDelete = async (id) => {
+    await onDelete(id)
+    setShowModal(false)
+    setEditingHabit(null)
   }
 
   return (
@@ -84,14 +56,10 @@ export default function Habits() {
               Build consistency, one day at a time
             </p>
           </div>
-
-          <RetroButton onClick={() => setShowModal(true)}>
-            + New Habit
-          </RetroButton>
+          <RetroButton onClick={() => setShowModal(true)}>+ New Habit</RetroButton>
         </div>
       </PaperCard>
 
-      {/* Habit Cards */}
       {habits.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {habits.map((habit) => (
@@ -100,7 +68,7 @@ export default function Habits() {
               habit={habit}
               logs={habitLogs[habit.id] || []}
               streak={streaks[habit.id] || 0}
-              onToggle={handleToggle}
+              onToggle={onToggle}
               onEdit={handleEdit}
             />
           ))}
@@ -115,9 +83,13 @@ export default function Habits() {
         </PaperCard>
       )}
 
-      {/* Modal */}
       {showModal && (
-        <HabitModal habit={editingHabit} onClose={handleCloseModal} />
+        <HabitModal
+          habit={editingHabit}
+          onSave={handleSave}
+          onDelete={editingHabit ? handleDelete : null}
+          onClose={() => { setShowModal(false); setEditingHabit(null) }}
+        />
       )}
     </div>
   )
