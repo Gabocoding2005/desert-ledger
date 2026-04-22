@@ -1,5 +1,26 @@
 @import 'tailwindcss';
 
+/* Tailwind v4 theme — defines all utility classes (bg-camel-sand, font-display, etc.) */
+@theme {
+  --color-camel-sand:     #D4A957;
+  --color-camel-tobacco:  #8B5E3C;
+  --color-camel-cream:    #F5ECD7;
+  --color-camel-rust:     #C1440E;
+  --color-camel-midnight: #1A1A2E;
+  --color-camel-sage:     #6B7F5E;
+  --color-camel-sky:      #7CAFC4;
+  --color-camel-dust:     #E8D5B7;
+  --color-camel-charcoal: #2D2D2D;
+  --color-camel-paper:    #FDF8EF;
+  --color-income-color:   #4A7C59;
+  --color-expense-color:  #C1440E;
+  --color-streak-color:   #D4A957;
+
+  --font-family-display: 'Playfair Display', 'Didot', Georgia, serif;
+  --font-family-body:    'Source Serif 4', 'Times New Roman', Georgia, serif;
+  --font-family-mono:    'DM Mono', 'Courier New', ui-monospace, monospace;
+}
+
 :root {
   /* Desert Warm Core */
   --camel-sand:      #D4A957;
