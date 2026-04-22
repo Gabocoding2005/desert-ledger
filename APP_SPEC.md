@@ -2,7 +2,7 @@
 
 ### *A Finance & Habit Tracker — Built for the Long Road*
 
-> **Stack:** Python 3 · Flask · SQLAlchemy · SQLite · React 19  
+> **Stack:** Python 3 · Flask · SQLAlchemy · PostgreSQL · React 19 · Docker  
 > **Estética:** Campañas vintage de Camel USA (1940s–1970s) — tipografía bold, paletas desert-warm, ilustraciones retro-americana, texturas de papel envejecido.
 
 ---
@@ -19,10 +19,12 @@ Una app web personal para trackear **finanzas** (ingresos, gastos, presupuestos,
 ┌─────────────────────────────────┐
 │          FRONTEND               │
 │  React 19 (Vite)                │
-│  TanStack Router · Zustand      │
-│  Recharts · Tailwind CSS        │
+│  Zustand · Recharts             │
+│  Tailwind CSS 4 · Axios         │
+│  Vite Proxy → Backend           │
 └──────────┬──────────────────────┘
            │  REST API (JSON)
+           │  /api/*
            ▼
 ┌─────────────────────────────────┐
 │          BACKEND                │
@@ -34,9 +36,14 @@ Una app web personal para trackear **finanzas** (ingresos, gastos, presupuestos,
            ▼
 ┌─────────────────────────────────┐
 │        BASE DE DATOS            │
-│  SQLite (dev/prod single-user)  │
+│  PostgreSQL 15                  │
 │  Alembic migrations             │
 └─────────────────────────────────┘
+
+🐳 Todo corre en Docker Compose:
+   - db (PostgreSQL)
+   - backend (Flask)
+   - frontend (Vite dev server)
 ```
 
 ---
@@ -48,40 +55,38 @@ desert-ledger/
 ├── backend/
 │   ├── app/
 │   │   ├── __init__.py          # create_app factory
-│   │   ├── config.py            # Settings / DB path
+│   │   ├── config.py            # Settings / DATABASE_URL
 │   │   ├── extensions.py        # db, migrate, ma instances
-│   │   ├── models/
-│   │   │   ├── __init__.py
-│   │   │   ├── transaction.py   # Income / Expense
-│   │   │   ├── category.py      # Categorías financieras
-│   │   │   ├── budget.py        # Presupuestos mensuales
-│   │   │   ├── habit.py         # Definición de hábitos
-│   │   │   └── habit_log.py     # Logs diarios de hábitos
-│   │   ├── routes/
-│   │   │   ├── __init__.py
-│   │   │   ├── transactions.py  # CRUD transacciones
-│   │   │   ├── categories.py    # CRUD categorías
-│   │   │   ├── budgets.py       # CRUD presupuestos
-│   │   │   ├── habits.py        # CRUD hábitos
-│   │   │   ├── habit_logs.py    # Registro diario
-│   │   │   └── dashboard.py     # Aggregations / stats
-│   │   └── schemas/
+│   │   ├── models.py            # Todos los modelos SQLAlchemy
+│   │   ├── schemas.py           # Marshmallow schemas
+│   │   └── routes/
 │   │       ├── __init__.py
-│   │       └── ...              # Marshmallow schemas
+│   │       ├── transactions.py  # CRUD transacciones
+│   │       ├── categories.py    # CRUD categorías
+│   │       ├── budgets.py       # CRUD presupuestos
+│   │       ├── habits.py        # CRUD hábitos
+│   │       ├── habit_logs.py    # Registro diario
+│   │       └── dashboard.py     # Aggregations / stats
 │   ├── migrations/              # Alembic
-│   ├── instance/
-│   │   └── desert_ledger.db     # SQLite file
 │   ├── requirements.txt
-│   └── run.py
+│   ├── run.py                   # Entry point
+│   ├── init_db.py              # DB initialization script
+│   ├── seed_data.py            # Seed categories
+│   ├── entrypoint.sh           # Docker entrypoint
+│   ├── Dockerfile
+│   └── .dockerignore
 │
 ├── frontend/
 │   ├── public/
-│   │   └── fonts/               # Western / retro fonts
+│   │   └── assets/              # Logos y SVG assets
 │   ├── src/
 │   │   ├── main.jsx
 │   │   ├── App.jsx
-│   │   ├── api/                 # Axios / fetch wrappers
+│   │   ├── api/
+│   │   │   └── client.js        # Axios client + API methods
 │   │   ├── stores/              # Zustand stores
+│   │   │   ├── useFinanceStore.js
+│   │   │   └── useHabitStore.js
 │   │   ├── pages/
 │   │   │   ├── Dashboard.jsx
 │   │   │   ├── Transactions.jsx
@@ -91,36 +96,34 @@ desert-ledger/
 │   │   ├── components/
 │   │   │   ├── layout/
 │   │   │   │   ├── Sidebar.jsx
-│   │   │   │   ├── TopBar.jsx
-│   │   │   │   └── PageShell.jsx
+│   │   │   │   └── TopBar.jsx
 │   │   │   ├── finance/
-│   │   │   │   ├── TransactionRow.jsx
+│   │   │   │   ├── TransactionModal.jsx
 │   │   │   │   ├── BudgetCard.jsx
-│   │   │   │   ├── SpendingChart.jsx
-│   │   │   │   └── BalanceBanner.jsx
+│   │   │   │   └── CategoryBadge.jsx
 │   │   │   ├── habits/
 │   │   │   │   ├── HabitCard.jsx
-│   │   │   │   ├── StreakBadge.jsx
-│   │   │   │   ├── CalendarHeatmap.jsx
-│   │   │   │   └── HabitForm.jsx
+│   │   │   │   ├── HabitModal.jsx
+│   │   │   │   └── StreakBadge.jsx
 │   │   │   └── ui/
-│   │   │       ├── RetroButton.jsx
-│   │   │       ├── PaperCard.jsx
-│   │   │       ├── DesertDivider.jsx
-│   │   │       └── CamelBadge.jsx
+│   │   │       └── (componentes reutilizables)
 │   │   ├── styles/
-│   │   │   ├── index.css        # CSS vars + globals
-│   │   │   └── paper-texture.css
+│   │   │   └── index.css        # CSS vars + globals
 │   │   └── utils/
 │   │       ├── currency.js
 │   │       └── dates.js
 │   ├── index.html
 │   ├── tailwind.config.js
-│   ├── vite.config.js
-│   └── package.json
+│   ├── vite.config.js           # Proxy configurado
+│   ├── package.json
+│   ├── Dockerfile
+│   └── .dockerignore
 │
+├── docker-compose.yml           # 3 servicios: db, backend, frontend
 ├── .gitignore
-└── README.md
+├── README.md
+├── DESIGN-INTEGRATION.md
+└── APP_SPEC.md                  # Este archivo
 ```
 
 ---
@@ -405,21 +408,56 @@ Cards de hábitos con calendar heatmap estilo "stamp collection". Cada día comp
 
 ## 8. Setup y Ejecución
 
-### Backend
+### 🐳 Con Docker (Recomendado)
 
+```bash
+# Levantar todos los servicios
+docker-compose up
+
+# O en segundo plano
+docker-compose up -d
+
+# Acceder a:
+# Frontend: http://localhost:5173
+# Backend API: http://localhost:5000
+# PostgreSQL: localhost:5432
+```
+
+**Comandos útiles:**
+```bash
+# Ver logs
+docker-compose logs -f
+
+# Detener servicios
+docker-compose down
+
+# Resetear base de datos
+docker-compose down -v
+
+# Reconstruir imágenes
+docker-compose build --no-cache
+```
+
+### 💻 Setup Manual (Sin Docker)
+
+**Backend:**
 ```bash
 cd backend
 python -m venv venv
 source venv/bin/activate          # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-flask db init
-flask db migrate -m "initial"
-flask db upgrade
+
+# Configurar DATABASE_URL (PostgreSQL requerido)
+export DATABASE_URL=postgresql://user:password@localhost:5432/desert_ledger
+
+# Inicializar base de datos
+python init_db.py
+
+# Ejecutar servidor
 python run.py                     # http://localhost:5000
 ```
 
-### Frontend
-
+**Frontend:**
 ```bash
 cd frontend
 npm install
@@ -435,6 +473,8 @@ Flask-Migrate==4.1.*
 Flask-CORS==5.0.*
 Flask-Marshmallow==1.2.*
 marshmallow-sqlalchemy==1.1.*
+psycopg2-binary==2.9.*
+gunicorn==23.*
 ```
 
 ### `package.json` (deps clave)
@@ -444,18 +484,16 @@ marshmallow-sqlalchemy==1.1.*
   "dependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "@tanstack/react-router": "^1.x",
     "zustand": "^5.x",
     "recharts": "^2.x",
     "axios": "^1.x",
     "date-fns": "^4.x",
-    "clsx": "^2.x"
+    "lucide-react": "^0.x"
   },
   "devDependencies": {
     "vite": "^6.x",
     "@vitejs/plugin-react": "^4.x",
-    "tailwindcss": "^4.x",
-    "autoprefixer": "^10.x"
+    "@tailwindcss/vite": "^4.x"
   }
 }
 ```
@@ -479,7 +517,9 @@ marshmallow-sqlalchemy==1.1.*
 ## 10. Notas Adicionales
 
 - **Auth:** No incluido. Es single-user local. Se puede agregar Flask-Login después.
-- **Deploy:** SQLite funciona perfecto para uso personal. Para multi-user, migrar a PostgreSQL.
+- **Base de datos:** PostgreSQL 15+ requerido. La app usa la variable de entorno `DATABASE_URL`.
+- **Proxy API:** El frontend usa Vite proxy (`/api` → `http://backend:5000`) para comunicarse con el backend.
+- **Docker:** Toda la app corre en 3 contenedores con hot-reload activado para desarrollo.
 - **Responsive:** Mobile-first. El sidebar colapsa a bottom nav en móvil.
-- **Dark mode:** No prioritario — la estética Camel es inherentemente light/warm. Se podría hacer una variante "midnight desert" después.
+- **Dark mode:** No prioritario — la estética Camel es inherentemente light/warm.
 - **Exportar:** Considerar CSV export de transacciones en milestone 7.
