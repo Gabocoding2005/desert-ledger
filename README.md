@@ -2,7 +2,7 @@
 
 ### *A Finance & Habit Tracker — Built for the Long Road*
 
-> **Stack:** Python 3 · Flask · SQLAlchemy · SQLite · React 19
+> **Stack:** Python 3 · Flask · SQLAlchemy · PostgreSQL · React 19
 > **Aesthetic:** Vintage Camel USA campaigns (1940s–1970s) — bold typography, desert-warm palettes, retro-americana illustrations
 
 ---
@@ -23,18 +23,47 @@ Desert Ledger is a personal web app for tracking **finances** (income, expenses,
 # Start all services (database, backend, frontend)
 docker-compose up
 
+# Or run in background
+docker-compose up -d
+
 # Access the app
 # Frontend: http://localhost:5173
 # Backend API: http://localhost:5000
 ```
 
-For detailed Docker instructions, see [README-DOCKER.md](README-DOCKER.md)
+**Useful Docker Commands:**
 
-### 💻 Manual Setup
+```bash
+# View logs
+docker-compose logs -f
 
-**Prerequisites:** Python 3.12+, Node.js 18+, Git
+# View logs for specific service
+docker-compose logs -f backend
+docker-compose logs -f frontend
 
-### Backend Setup
+# Stop services
+docker-compose down
+
+# Stop and remove database (reset)
+docker-compose down -v
+
+# Rebuild images
+docker-compose build --no-cache
+
+# Rebuild and start
+docker-compose up --build
+```
+
+**Docker Services:**
+- **db**: PostgreSQL 15 (port 5432)
+- **backend**: Flask API with auto-reload (port 5000)
+- **frontend**: Vite + React with auto-reload (port 5173)
+
+### 💻 Manual Setup (Without Docker)
+
+**Prerequisites:** Python 3.12+, Node.js 18+, PostgreSQL 15+
+
+**Backend Setup:**
 
 ```bash
 # Navigate to backend directory
@@ -52,13 +81,14 @@ source venv/bin/activate
 # Install dependencies
 pip install -r requirements.txt
 
-# Initialize database
-flask db init
-flask db migrate -m "initial migration"
-flask db upgrade
+# Set database URL (PostgreSQL required)
+# On Windows:
+set DATABASE_URL=postgresql://user:password@localhost:5432/desert_ledger
+# On macOS/Linux:
+export DATABASE_URL=postgresql://user:password@localhost:5432/desert_ledger
 
-# Create some default categories (optional)
-python seed_data.py  # If you create this file
+# Initialize database
+python init_db.py
 
 # Run the Flask server
 python run.py
@@ -66,7 +96,7 @@ python run.py
 
 The backend API will be available at **http://localhost:5000**
 
-### Frontend Setup
+**Frontend Setup:**
 
 ```bash
 # Open a new terminal and navigate to frontend directory
@@ -128,7 +158,6 @@ desert-ledger/
 ├── docker-compose.yml          # 3 services: db, backend, frontend
 ├── .gitignore
 ├── README.md                   # This file
-├── README-DOCKER.md            # Docker setup guide
 ├── DESIGN-INTEGRATION.md       # Design system documentation
 └── APP_SPEC.md                 # Original spec (Spanish)
 ```
@@ -262,10 +291,8 @@ gunicorn -w 4 -b 0.0.0.0:5000 "app:create_app()"
 ## 📝 Notes
 
 - **Authentication:** Not included by default. This is designed as a single-user local app. Add Flask-Login for multi-user support.
-- **Database:**
-  - Manual setup uses SQLite for simplicity
-  - Docker setup uses PostgreSQL for better multi-container support
-  - Config automatically detects `DATABASE_URL` environment variable
+- **Database:** PostgreSQL 15+ required. The app uses `DATABASE_URL` environment variable for connection.
+- **API Proxy:** Frontend uses Vite proxy to communicate with backend (configured in `vite.config.js`).
 - **Mobile:** Responsive design with mobile-first approach. Sidebar collapses to bottom nav on mobile.
 - **Dark Mode:** Not prioritized. The Camel aesthetic is inherently light/warm themed.
 - **Design System:** See [DESIGN-INTEGRATION.md](DESIGN-INTEGRATION.md) for complete design documentation
