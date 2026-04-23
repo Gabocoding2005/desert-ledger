@@ -1,320 +1,124 @@
-# 🐫 DESERT LEDGER
+# Desert Ledger
 
-### *A Finance & Habit Tracker — Built for the Long Road*
+App web para trackear finanzas y hábitos personales.
 
-> **Stack:** Python 3 · Flask · SQLAlchemy · PostgreSQL · React 19
-> **Aesthetic:** Vintage Camel USA campaigns (1940s–1970s) — bold typography, desert-warm palettes, retro-americana illustrations
-
----
-
-## 📖 Overview
-
-Desert Ledger is a personal web app for tracking **finances** (income, expenses, budgets, savings goals) and **habits** (streaks, frequencies, progress) in a single, cohesive interface. The design draws inspiration from classic American Camel advertising: earth tones, bold serif typography, weathered borders, and that signature "Walk a Mile" confidence.
+**Stack:** Python 3 · Flask · SQLAlchemy · PostgreSQL · React 19 · Docker
 
 ---
 
-## 🚀 Quick Start
+## Arquitectura
 
-### 🐳 With Docker (Recommended)
-
-**Prerequisites:** Docker and Docker Compose
-
-```bash
-# Start all services (database, backend, frontend)
-docker-compose up
-
-# Or run in background
-docker-compose up -d
-
-# Access the app
-# Frontend: http://localhost:5173
-# Backend API: http://localhost:5000
+```
+React (5173) → Vite Proxy → Flask API (5000) → PostgreSQL (5432)
 ```
 
-**Useful Docker Commands:**
+Tres contenedores en Docker Compose: `db`, `backend`, `frontend`.
+
+---
+
+## Ejecutar con Docker
 
 ```bash
-# View logs
-docker-compose logs -f
+docker-compose up
+```
 
-# View logs for specific service
-docker-compose logs -f backend
-docker-compose logs -f frontend
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:5000
 
-# Stop services
+```bash
+# Detener
 docker-compose down
 
-# Stop and remove database (reset)
+# Resetear base de datos
 docker-compose down -v
 
-# Rebuild images
-docker-compose build --no-cache
-
-# Rebuild and start
+# Reconstruir imágenes
 docker-compose up --build
 ```
 
-**Docker Services:**
-- **db**: PostgreSQL 15 (port 5432)
-- **backend**: Flask API with auto-reload (port 5000)
-- **frontend**: Vite + React with auto-reload (port 5173)
+---
 
-### 💻 Manual Setup (Without Docker)
+## Ejecutar sin Docker
 
-**Prerequisites:** Python 3.12+, Node.js 18+, PostgreSQL 15+
+**Requisitos:** Python 3.12+, Node.js 18+, PostgreSQL 15+
 
-**Backend Setup:**
+**Backend:**
 
 ```bash
-# Navigate to backend directory
 cd backend
-
-# Create virtual environment
 python -m venv venv
-
-# Activate virtual environment
-# On Windows:
-venv\Scripts\activate
-# On macOS/Linux:
-source venv/bin/activate
-
-# Install dependencies
+venv\Scripts\activate        # Windows
 pip install -r requirements.txt
-
-# Set database URL (PostgreSQL required)
-# On Windows:
 set DATABASE_URL=postgresql://user:password@localhost:5432/desert_ledger
-# On macOS/Linux:
-export DATABASE_URL=postgresql://user:password@localhost:5432/desert_ledger
-
-# Initialize database
 python init_db.py
-
-# Run the Flask server
 python run.py
 ```
 
-The backend API will be available at **http://localhost:5000**
-
-**Frontend Setup:**
+**Frontend:**
 
 ```bash
-# Open a new terminal and navigate to frontend directory
 cd frontend
-
-# Install dependencies
 npm install
-
-# Run the development server
 npm run dev
 ```
 
-The frontend will be available at **http://localhost:5173**
-
 ---
 
-## 📂 Project Structure
+## Estructura
 
 ```
-desert-ledger/
-├── backend/                     # Flask API
+perroApp/
+├── backend/
 │   ├── app/
-│   │   ├── __init__.py          # Flask app factory
-│   │   ├── config.py            # Configuration (SQLite/PostgreSQL)
-│   │   ├── extensions.py        # SQLAlchemy, Migrate, Marshmallow
-│   │   ├── models/              # Database models
-│   │   ├── routes/              # API endpoints
-│   │   └── schemas/             # Marshmallow schemas
-│   ├── migrations/              # Database migrations (auto-generated)
-│   ├── instance/                # Instance files (SQLite DB)
-│   ├── requirements.txt         # Python dependencies
-│   ├── run.py                   # Entry point
-│   ├── init_db.py              # Docker DB initialization
-│   ├── entrypoint.sh           # Docker entrypoint script
-│   ├── Dockerfile              # Backend container image
-│   └── .dockerignore
-│
-├── frontend/                    # React + Vite
-│   ├── public/
-│   │   └── assets/             # Logos and SVG assets
+│   │   ├── __init__.py       # Flask app factory
+│   │   ├── config.py         # Configuración / DATABASE_URL
+│   │   ├── extensions.py     # SQLAlchemy, Migrate, Marshmallow
+│   │   ├── models/           # Modelos de base de datos
+│   │   ├── routes/           # Endpoints REST
+│   │   └── schemas/          # Serialización con Marshmallow
+│   ├── migrations/           # Migraciones Alembic
+│   ├── requirements.txt
+│   ├── run.py
+│   ├── init_db.py
+│   ├── seed_data.py
+│   └── Dockerfile
+├── frontend/
 │   ├── src/
-│   │   ├── components/
-│   │   │   ├── ui/             # RetroButton, PaperCard, etc.
-│   │   │   ├── layout/         # Sidebar, TopBar
-│   │   │   ├── finance/        # Finance-specific components
-│   │   │   └── habits/         # Habit tracking components
-│   │   ├── pages/              # Dashboard, Transactions, Budgets, Habits, Settings
-│   │   ├── stores/             # Zustand state management
-│   │   ├── api/                # Axios client
-│   │   ├── utils/              # currency.js, dates.js
-│   │   └── styles/             # Global CSS + design tokens
-│   ├── index.html
-│   ├── package.json
-│   ├── tailwind.config.js      # Tailwind + custom colors
-│   ├── vite.config.js
-│   ├── Dockerfile              # Frontend container image
-│   └── .dockerignore
-│
-├── docker-compose.yml          # 3 services: db, backend, frontend
-├── .gitignore
-├── README.md                   # This file
-├── DESIGN-INTEGRATION.md       # Design system documentation
-└── APP_SPEC.md                 # Original spec (Spanish)
+│   │   ├── pages/            # Dashboard, Transactions, Budgets, Habits
+│   │   ├── components/       # Componentes reutilizables
+│   │   ├── stores/           # Estado global con Zustand
+│   │   └── api/              # Cliente HTTP (fetch)
+│   └── Dockerfile
+└── docker-compose.yml
 ```
 
 ---
 
-## 🎨 Design System
+## API Endpoints
 
-### Color Palette
-
-```css
---camel-sand:      #D4A957   /* Golden sand - primary */
---camel-tobacco:   #8B5E3C   /* Deep tobacco brown */
---camel-cream:     #F5ECD7   /* Aged paper cream */
---camel-rust:      #C1440E   /* Rust red accent */
---camel-midnight:  #1A1A2E   /* Midnight blue */
---camel-sage:      #6B7F5E   /* Desert sage green */
---camel-sky:       #7CAFC4   /* Washed sky blue */
---camel-dust:      #E8D5B7   /* Light dust */
---camel-charcoal:  #2D2D2D   /* Primary text */
---camel-paper:     #FDF8EF   /* Base background */
-```
-
-### Typography
-
-- **Display/Headlines:** Playfair Display (bold, condensed, poster style)
-- **Body/UI:** Source Serif 4 (editorial serif with character)
-- **Monospace/Numbers:** DM Mono (for currency amounts)
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| GET | `/api/transactions` | Listar transacciones |
+| POST | `/api/transactions` | Crear transacción |
+| PUT | `/api/transactions/<id>` | Editar transacción |
+| DELETE | `/api/transactions/<id>` | Eliminar transacción |
+| GET | `/api/categories` | Listar categorías |
+| POST | `/api/categories` | Crear categoría |
+| GET | `/api/budgets?month=&year=` | Presupuestos del mes |
+| POST | `/api/budgets` | Crear presupuesto |
+| GET | `/api/habits` | Listar hábitos activos |
+| POST | `/api/habits` | Crear hábito |
+| POST | `/api/habits/<id>/logs` | Marcar/desmarcar día |
+| GET | `/api/dashboard/summary` | Balance e ingresos del mes |
+| GET | `/api/dashboard/trends` | Gastos últimos 6 meses |
+| GET | `/api/dashboard/habits` | Rachas y % completado |
 
 ---
 
-## 🔌 API Endpoints
+## Modelos
 
-### Transactions
-
-- `GET /api/transactions` - List transactions (with filters)
-- `POST /api/transactions` - Create transaction
-- `PUT /api/transactions/<id>` - Update transaction
-- `DELETE /api/transactions/<id>` - Delete transaction
-
-### Categories
-
-- `GET /api/categories` - List all categories
-- `POST /api/categories` - Create category
-- `PUT /api/categories/<id>` - Update category
-- `DELETE /api/categories/<id>` - Delete category
-
-### Budgets
-
-- `GET /api/budgets?month=&year=` - Get budgets for month
-- `POST /api/budgets` - Create/update budget
-- `DELETE /api/budgets/<id>` - Delete budget
-
-### Habits
-
-- `GET /api/habits` - List active habits
-- `POST /api/habits` - Create habit
-- `PUT /api/habits/<id>` - Update habit
-- `DELETE /api/habits/<id>` - Soft delete habit
-
-### Habit Logs
-
-- `GET /api/habits/<id>/logs?month=&year=` - Get logs for habit
-- `POST /api/habits/<id>/logs` - Toggle habit completion
-
-### Dashboard
-
-- `GET /api/dashboard/summary` - Financial summary
-- `GET /api/dashboard/trends` - Spending trends
-- `GET /api/dashboard/habits` - Habits summary
-
----
-
-## 🎯 Features
-
-### Finance Tracking
-- ✅ Income and expense transactions
-- ✅ Category management with custom icons and colors
-- ✅ Monthly budget tracking with progress bars
-- ✅ Dashboard with balance overview
-- ✅ Spending charts by category
-- ✅ Transaction filtering and search
-
-### Habit Tracking
-- ✅ Daily and weekly habit goals
-- ✅ Streak tracking with visual badges
-- ✅ Calendar heatmap for completion history
-- ✅ Completion percentage metrics
-- ✅ Custom colors per habit
-
-### Design
-- ✅ Vintage Camel-inspired aesthetic
-- ✅ Paper texture overlays
-- ✅ Retro button styles with shadow effects
-- ✅ Stamp border cards
-- ✅ Desert-themed dividers
-- ✅ Responsive layout
-
----
-
-## 🛠️ Development
-
-### Database Migrations
-
-```bash
-# Create a new migration after model changes
-flask db migrate -m "description of changes"
-
-# Apply migrations
-flask db upgrade
-
-# Rollback last migration
-flask db downgrade
-```
-
-### Building for Production
-
-```bash
-# Frontend
-cd frontend
-npm run build
-
-# Backend
-# Use gunicorn or similar WSGI server
-pip install gunicorn
-gunicorn -w 4 -b 0.0.0.0:5000 "app:create_app()"
-```
-
----
-
-## 📝 Notes
-
-- **Authentication:** Not included by default. This is designed as a single-user local app. Add Flask-Login for multi-user support.
-- **Database:** PostgreSQL 15+ required. The app uses `DATABASE_URL` environment variable for connection.
-- **API Proxy:** Frontend uses Vite proxy to communicate with backend (configured in `vite.config.js`).
-- **Mobile:** Responsive design with mobile-first approach. Sidebar collapses to bottom nav on mobile.
-- **Dark Mode:** Not prioritized. The Camel aesthetic is inherently light/warm themed.
-- **Design System:** See [DESIGN-INTEGRATION.md](DESIGN-INTEGRATION.md) for complete design documentation
-
----
-
-## 🎭 Design Philosophy
-
-1. **"Walk a Mile"** — Every interaction should feel substantial and intentional
-2. **Paper, not screen** — Everything looks printed on warm bond paper
-3. **Typography as hero** — Big bold numbers are the star
-4. **Earned badges** — Habit streaks celebrated with vintage-style badges
-5. **Warm > Cool** — Always prioritize warm tones
-
----
-
-## 📄 License
-
-MIT License - Feel free to use and modify for your personal finance journey.
-
----
-
-**Built for the long road** 🐫
-
-*Version 1.0.0*
+- **Category** — nombre, tipo (income/expense), ícono, color
+- **Transaction** — monto, tipo, descripción, fecha, categoría
+- **Budget** — categoría, mes, año, límite (unique por categoría+mes+año)
+- **Habit** — nombre, frecuencia, días objetivo, color, soft-delete
+- **HabitLog** — hábito, fecha, completado (unique por hábito+fecha)

@@ -8,7 +8,7 @@ class Config:
     """Base configuration"""
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev-secret-key-change-in-production'
 
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:////data/desert_ledger.db'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'postgresql://desert:desert@localhost:5432/desert_ledger'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # CORS

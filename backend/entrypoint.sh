@@ -1,6 +1,4 @@
 #!/bin/bash
-mkdir -p /data
-
 echo "Inicializando la base de datos..."
 python init_db.py
 
