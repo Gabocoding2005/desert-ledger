@@ -72,25 +72,34 @@ perroApp/
 │   ├── app/
 │   │   ├── __init__.py       # Flask app factory
 │   │   ├── config.py         # Configuración / DATABASE_URL
-│   │   ├── extensions.py     # SQLAlchemy, Migrate, Marshmallow
+│   │   ├── extensions.py     # SQLAlchemy y Marshmallow
 │   │   ├── models/           # Modelos de base de datos
 │   │   ├── routes/           # Endpoints REST
 │   │   └── schemas/          # Serialización con Marshmallow
-│   ├── migrations/           # Migraciones Alembic
 │   ├── requirements.txt
 │   ├── run.py
-│   ├── init_db.py
-│   ├── seed_data.py
+│   ├── init_db.py            # Crea las tablas al arrancar
+│   ├── seed_data.py          # Inserta categorías por defecto
 │   └── Dockerfile
 ├── frontend/
 │   ├── src/
+│   │   ├── App.jsx           # Estado global y carga de datos
 │   │   ├── pages/            # Dashboard, Transactions, Budgets, Habits
 │   │   ├── components/       # Componentes reutilizables
-│   │   ├── stores/           # Estado global con Zustand
-│   │   └── api/              # Cliente HTTP (fetch)
+│   │   └── api/client.js     # Cliente HTTP (fetch)
 │   └── Dockerfile
 └── docker-compose.yml
 ```
+
+---
+
+## Arranque del backend (entrypoint.sh)
+
+Al iniciar el contenedor se ejecutan tres pasos en orden:
+
+1. `init_db.py` — espera a que PostgreSQL esté listo y crea las tablas con `db.create_all()`
+2. `seed_data.py` — inserta categorías por defecto si la tabla está vacía
+3. `run.py` — levanta el servidor Flask
 
 ---
 
