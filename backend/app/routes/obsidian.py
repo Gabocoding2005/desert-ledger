@@ -8,6 +8,20 @@ from sqlalchemy import func, extract
 
 bp = Blueprint('obsidian', __name__, url_prefix='/api/obsidian')
 
+# Windows paths like C:\Users\User\... are mounted at /mnt/host inside Docker
+_WIN_PREFIXES = [
+    'C:\\Users\\User', 'c:\\Users\\User',
+    'C:/Users/User',  'c:/Users/User',
+]
+
+def _translate_path(path: str) -> str:
+    p = path.strip()
+    for prefix in _WIN_PREFIXES:
+        if p.startswith(prefix):
+            rest = p[len(prefix):].replace('\\', '/').lstrip('/')
+            return '/mnt/host/' + rest if rest else '/mnt/host'
+    return p
+
 MONTH_NAMES = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December',
@@ -29,7 +43,7 @@ def test_path():
     vault_path = (request.get_json() or {}).get('vault_path', '').strip()
     if not vault_path:
         return jsonify({'ok': False, 'error': 'Ruta vacía'}), 400
-    p = Path(vault_path)
+    p = Path(_translate_path(vault_path))
     if not p.exists():
         return jsonify({'ok': False, 'error': 'La ruta no existe'}), 400
     if not p.is_dir():
@@ -48,6 +62,7 @@ def export_report():
         return jsonify({'error': 'vault_path requerido'}), 400
     if not month or not year:
         return jsonify({'error': 'month y year son requeridos'}), 400
+    vault_path = _translate_path(vault_path)
     if not Path(vault_path).exists():
         return jsonify({'error': 'La ruta del vault no existe'}), 400
 
@@ -137,7 +152,7 @@ tags: [finanzas, desert-ledger, reporte]
 
 @bp.route('/export-recipe/<int:recipe_id>', methods=['POST'])
 def export_recipe(recipe_id):
-    vault_path = ((request.get_json() or {}).get('vault_path', '')).strip()
+    vault_path = _translate_path(((request.get_json() or {}).get('vault_path', '')).strip())
 
     if not vault_path:
         return jsonify({'error': 'vault_path requerido'}), 400

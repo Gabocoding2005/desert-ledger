@@ -21,6 +21,7 @@ services:
       FLASK_ENV: development
     volumes:
       - ./backend:/app
+      - C:/Users/User:/mnt/host
     depends_on:
       - db
 
