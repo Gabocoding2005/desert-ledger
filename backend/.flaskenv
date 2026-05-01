@@ -1,3 +1,6 @@
 FLASK_APP=run.py
 FLASK_ENV=development
 FLASK_DEBUG=1
+ANTHROPIC_API_KEY=tu_api_key_aqui
+GMAIL_USER=tu_correo@gmail.com
+GMAIL_APP_PASSWORD=xxxx_xxxx_xxxx_xxxx

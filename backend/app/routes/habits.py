@@ -1,7 +1,8 @@
 from flask import Blueprint, request, jsonify
 from app.extensions import db
-from app.models import Habit
+from app.models import Habit, HabitLog
 from app.schemas import habit_schema, habits_schema
+from datetime import date as date_type
 
 bp = Blueprint('habits', __name__, url_prefix='/api/habits')
 
@@ -48,6 +49,18 @@ def update_habit(id):
 
     db.session.commit()
     return jsonify(habit_schema.dump(habit))
+
+
+@bp.route('/pending-today', methods=['GET'])
+def get_pending_today():
+    """Returns active habits not yet completed today"""
+    today = date_type.today()
+    habits = Habit.query.filter_by(is_active=True).all()
+    pending = [
+        h for h in habits
+        if not HabitLog.query.filter_by(habit_id=h.id, date=today, completed=True).first()
+    ]
+    return jsonify(habits_schema.dump(pending))
 
 
 @bp.route('/<int:id>', methods=['DELETE'])

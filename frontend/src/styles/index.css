@@ -1,271 +1,195 @@
 @import 'tailwindcss';
 
-/* Tailwind v4 theme — defines all utility classes (bg-camel-sand, font-display, etc.) */
+/* Tailwind v4 theme — 70s modern palette */
 @theme {
-  --color-camel-sand:     #D4A957;
-  --color-camel-tobacco:  #8B5E3C;
-  --color-camel-cream:    #F5ECD7;
-  --color-camel-rust:     #C1440E;
+  --color-camel-paper:    #F4E9D2;
+  --color-camel-cream:    #FBF4E0;
+  --color-camel-tobacco:  #2A1F14;
+  --color-camel-sand:     #D9A441;
+  --color-camel-rust:     #C45A2C;
   --color-camel-midnight: #1A1A2E;
-  --color-camel-sage:     #6B7F5E;
-  --color-camel-sky:      #7CAFC4;
-  --color-camel-dust:     #E8D5B7;
-  --color-camel-charcoal: #2D2D2D;
-  --color-camel-paper:    #FDF8EF;
-  --color-income-color:   #4A7C59;
-  --color-expense-color:  #C1440E;
-  --color-streak-color:   #D4A957;
+  --color-camel-sage:     #6B7A3A;
+  --color-camel-sky:      #3B6B6B;
+  --color-camel-dust:     #ECDDB8;
+  --color-camel-charcoal: #2A1F14;
+  --color-income-color:   #6B7A3A;
+  --color-expense-color:  #C45A2C;
+  --color-streak-color:   #D9A441;
 
-  --font-family-display: 'Playfair Display', 'Didot', Georgia, serif;
-  --font-family-body:    'Source Serif 4', 'Times New Roman', Georgia, serif;
-  --font-family-mono:    'DM Mono', 'Courier New', ui-monospace, monospace;
+  --font-family-display: 'DM Serif Display', 'Cooper Black', Georgia, serif;
+  --font-family-body:    'Familjen Grotesk', 'Helvetica Neue', system-ui, sans-serif;
+  --font-family-mono:    'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace;
 }
 
 :root {
-  /* Desert Warm Core */
-  --camel-sand:      #D4A957;
-  --camel-tobacco:   #8B5E3C;
-  --camel-cream:     #F5ECD7;
-  --camel-rust:      #C1440E;
-  --camel-midnight:  #1A1A2E;
+  /* === Core design tokens === */
+  --paper:        #F4E9D2;
+  --paper-deep:   #ECDDB8;
+  --bone:         #FBF4E0;
+  --ink:          #2A1F14;
+  --ink-soft:     #5A4427;
+  --ink-mute:     #8B7150;
 
-  /* Supporting */
-  --camel-sage:      #6B7F5E;
-  --camel-sky:       #7CAFC4;
-  --camel-dust:      #E8D5B7;
-  --camel-charcoal:  #2D2D2D;
-  --camel-paper:     #FDF8EF;
+  --ochre:        #D9A441;
+  --ochre-deep:   #B8842A;
+  --terracotta:   #C45A2C;
+  --burgundy:     #7A2E1C;
+  --olive:        #6B7A3A;
+  --teal:         #3B6B6B;
+  --plum:         #5A3A5A;
 
-  /* Semantic */
-  --income-color:    #4A7C59;
-  --expense-color:   #C1440E;
-  --streak-color:    #D4A957;
+  --income:       var(--olive);
+  --expense:      var(--terracotta);
+  --streak:       var(--ochre);
 
-  /* Role aliases */
-  --bg:              var(--camel-paper);
-  --bg-raised:       var(--camel-cream);
-  --bg-inverse:      var(--camel-tobacco);
-  --fg1:             var(--camel-charcoal);
-  --fg2:             var(--camel-tobacco);
-  --fg3:             #8B5E3C99;
-  --fg-on-dark:      var(--camel-cream);
-  --accent:          var(--camel-sand);
-  --accent-strong:   var(--camel-rust);
-  --border:          var(--camel-dust);
-  --border-strong:   var(--camel-tobacco);
+  /* Typography */
+  --f-display: 'DM Serif Display', 'Cooper Black', Georgia, serif;
+  --f-grot:    'Familjen Grotesk', 'Helvetica Neue', system-ui, sans-serif;
+  --f-mono:    'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace;
 
-  /* Fonts */
-  --font-display:    'Playfair Display', 'Didot', Georgia, serif;
-  --font-body:       'Source Serif 4', 'Times New Roman', Georgia, serif;
-  --font-mono:       'DM Mono', 'Courier New', ui-monospace, monospace;
+  /* Layout */
+  --sidebar-w: 220px;
+  --topbar-h:  88px;
 
-  /* Type scale */
-  --text-xs:   12px;
-  --text-sm:   14px;
-  --text-base: 16px;
-  --text-lg:   18px;
-  --text-xl:   20px;
-  --text-2xl:  24px;
-  --text-3xl:  30px;
-  --text-5xl:  48px;
-  --text-7xl:  72px;
+  /* Backwards compat — old :root vars used by some pages */
+  --camel-sand:      #D9A441;
+  --camel-tobacco:   #2A1F14;
+  --camel-cream:     #FBF4E0;
+  --camel-rust:      #C45A2C;
+  --camel-sage:      #6B7A3A;
+  --camel-dust:      #ECDDB8;
+  --camel-charcoal:  #2A1F14;
+  --camel-paper:     #F4E9D2;
+  --income-color:    #6B7A3A;
+  --expense-color:   #C45A2C;
+  --streak-color:    #D9A441;
 
-  /* Radii — minimal, vintage is sharp */
   --radius-none: 0;
   --radius-sm:   2px;
   --radius-md:   4px;
   --radius-pill: 999px;
-
-  /* Shadows — hard offset, screen-print feel */
-  --shadow-stamp-sm:   2px 2px 0 var(--camel-tobacco);
-  --shadow-stamp:      3px 3px 0 var(--camel-tobacco);
-  --shadow-stamp-lg:   4px 4px 0 var(--camel-tobacco);
-  --shadow-card:       0 2px 8px rgba(0,0,0,0.15), 0 0 0 1px var(--camel-dust);
-  --shadow-card-hover: 0 6px 20px rgba(0,0,0,0.18), 0 0 0 1px var(--camel-dust);
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* === Reset === */
+*, *::before, *::after { box-sizing: border-box; }
+html, body, #root { height: 100%; }
 
 body {
-  font-family: var(--font-body);
-  background-color: var(--camel-paper);
-  color: var(--camel-charcoal);
-  line-height: 1.6;
+  font-family: var(--f-grot);
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--paper);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-/* Paper texture */
-.paper-texture {
-  background-color: var(--camel-paper);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05' /%3E%3C/svg%3E");
-  position: relative;
-}
+button { font: inherit; color: inherit; cursor: pointer; background: none; border: none; }
+input, select, textarea { font: inherit; color: inherit; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
 
-.paper-texture::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 50%,
-    rgba(139, 94, 60, 0.08) 100%
-  );
-  pointer-events: none;
-}
-
-/* Stamp border — hero structural element */
-.stamp-border {
-  border: 3px solid var(--camel-tobacco);
-  box-shadow:
-    inset 0 0 0 1px var(--camel-sand),
-    var(--shadow-stamp-lg);
-}
-
-/* Burned card effect */
-.burned-card {
-  border-radius: 2px;
-  box-shadow:
-    0 2px 8px rgba(0, 0, 0, 0.15),
-    0 0 0 1px var(--camel-dust);
-  background: linear-gradient(
-    135deg,
-    var(--camel-cream) 0%,
-    var(--camel-paper) 100%
-  );
-}
-
-/* Vintage button — canonical control */
-.retro-button {
-  font-family: var(--font-display);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-radius: 0;
-  border: 3px solid var(--camel-tobacco);
-  background-color: var(--camel-sand);
-  color: var(--camel-charcoal);
-  box-shadow: var(--shadow-stamp);
-  transition: all 0.15s ease;
-  cursor: pointer;
-}
-
-.retro-button:hover {
-  transform: translate(1px, 1px);
-  box-shadow: var(--shadow-stamp-sm);
-}
-
-.retro-button:active {
-  transform: translate(3px, 3px);
-  box-shadow: none;
-}
-
-/* Display headings */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
-  font-weight: 900;
-  line-height: 1.2;
-}
-
-/* Monospace numbers */
-.mono-number {
-  font-family: var(--font-mono);
-  font-weight: 500;
-  font-variant-numeric: tabular-nums;
-}
-
-/* =============================================================
-   Semantic type classes — use these in components
-   ============================================================= */
-
-.dl-h1 {
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: var(--text-5xl);
-  line-height: 1.05;
+/* === Typography utilities === */
+.t-display {
+  font-family: var(--f-display);
+  font-weight: 400;
   letter-spacing: -0.01em;
-  color: var(--fg1);
-  text-transform: uppercase;
+  line-height: 1.02;
 }
-
-.dl-h2 {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--text-3xl);
-  line-height: 1.15;
-  color: var(--fg2);
-  text-transform: uppercase;
-}
-
-.dl-h3 {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--text-2xl);
-  line-height: 1.2;
-  color: var(--fg2);
-  text-transform: uppercase;
-}
-
-.dl-eyebrow {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--text-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--fg2);
-}
-
-.dl-body {
-  font-family: var(--font-body);
+.t-italic {
+  font-family: var(--f-display);
+  font-style: italic;
   font-weight: 400;
-  font-size: var(--text-base);
-  line-height: 1.6;
-  color: var(--fg1);
 }
-
-.dl-body-sm {
-  font-family: var(--font-body);
-  font-weight: 400;
-  font-size: var(--text-sm);
-  line-height: 1.5;
-  color: var(--fg2);
+.t-eyebrow {
+  font-family: var(--f-grot);
+  font-weight: 600;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
 }
-
-.dl-number {
-  font-family: var(--font-mono);
-  font-weight: 500;
+.t-mono {
+  font-family: var(--f-mono);
   font-variant-numeric: tabular-nums;
-  color: var(--fg1);
+  font-feature-settings: "tnum";
 }
 
-.dl-number-xl {
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: var(--text-7xl);
-  letter-spacing: -0.02em;
-  font-variant-numeric: tabular-nums;
-  color: var(--fg1);
+/* === Dividers === */
+.hairline { border: 1px solid var(--ink); }
+.hairline-soft { border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent); }
+.divider-double {
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  height: 4px;
+  border-left: none;
+  border-right: none;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+/* === Textures === */
+.paper-texture,
+.tex-grain {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.12 0 0 0 0 0.07 0 0 0 0.4 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
 }
 
-::-webkit-scrollbar-track {
-  background: var(--camel-cream);
-}
-
+/* === Scrollbar === */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: var(--camel-tobacco);
-  border-radius: 2px;
+  background: color-mix(in srgb, var(--ink) 22%, transparent);
+  border-radius: 999px;
+  border: 2px solid var(--paper);
+}
+::-webkit-scrollbar-thumb:hover { background: color-mix(in srgb, var(--ink) 40%, transparent); }
+
+/* === Animations === */
+@media (prefers-reduced-motion: no-preference) {
+  .anim-rise { animation: rise 480ms cubic-bezier(.2,.8,.2,1) both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--camel-sand);
+/* === Headings reset === */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--f-display);
+  font-weight: 400;
+  line-height: 1.2;
 }
+
+/* === Legacy utilities (kept for page compat) === */
+.burned-card {
+  background: var(--bone);
+  border: 1px solid var(--ink);
+}
+.stamp-border {
+  border: 1px solid var(--ink);
+}
+.retro-button {
+  font-family: var(--f-grot);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 999px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--bone);
+  cursor: pointer;
+  transition: transform 120ms;
+}
+.mono-number {
+  font-family: var(--f-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Old type utilities — remapped */
+.dl-eyebrow {
+  font-family: var(--f-grot);
+  font-weight: 600;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ink-mute);
+}
+.dl-number { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.dl-body { font-family: var(--f-grot); line-height: 1.6; }
+.dl-body-sm { font-family: var(--f-grot); font-size: 13px; }

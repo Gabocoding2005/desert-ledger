@@ -32,14 +32,14 @@ export default function SpendingChart({ data }) {
             <CartesianGrid strokeDasharray="3 3" stroke="#E8D5B7" />
             <XAxis
               dataKey="name"
-              tick={{ fill: '#2D2D2D', fontFamily: 'Source Serif 4', fontSize: 12 }}
+              tick={{ fill: '#2A1F14', fontFamily: 'Familjen Grotesk', fontSize: 12 }}
             />
             <YAxis
-              tick={{ fill: '#2D2D2D', fontFamily: 'DM Mono', fontSize: 11 }}
+              tick={{ fill: '#8B7150', fontFamily: 'JetBrains Mono', fontSize: 11 }}
               tickFormatter={v => `$${v}`}
             />
             <Tooltip content={<CustomTooltip />} />
-            <Bar dataKey="total" fill="#C1440E" radius={0} />
+            <Bar dataKey="total" fill="#C45A2C" radius={0} />
           </BarChart>
         </ResponsiveContainer>
       ) : (

@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import RetroButton from '../ui/RetroButton'
 
 const COLORS = [
-  '#D4A957', '#8B5E3C', '#C1440E', '#6B7F5E',
-  '#7CAFC4', '#4A7C59', '#E8442E', '#9B59B6',
+  '#D9A441', '#C45A2C', '#7A2E1C', '#6B7A3A',
+  '#3B6B6B', '#5A3A5A', '#B8842A', '#2A1F14',
 ]
 
 const inputCls = 'w-full px-4 py-2 border-2 border-camel-tobacco bg-camel-cream font-body text-camel-charcoal outline-none'
@@ -11,7 +11,7 @@ const inputRadius = { borderRadius: 'var(--radius-md)' }
 
 export default function HabitModal({ habit, onSave, onDelete, onClose }) {
   const [formData, setFormData] = useState({
-    name: '', description: '', frequency: 'daily', target_days: 7, color: '#D4A957',
+    name: '', description: '', frequency: 'daily', target_days: 7, color: '#D9A441',
   })
 
   useEffect(() => {

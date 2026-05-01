@@ -5,6 +5,8 @@ import Dashboard from './pages/Dashboard'
 import Transactions from './pages/Transactions'
 import Budgets from './pages/Budgets'
 import Habits from './pages/Habits'
+import Reports from './pages/Reports'
+import Recipes from './pages/Recipes'
 import Settings from './pages/Settings'
 import Sidebar from './components/layout/Sidebar'
 import TopBar from './components/layout/TopBar'
@@ -19,6 +21,8 @@ function App() {
   const [habitLogs,     setHabitLogs]     = useState({})
   const [summary,       setSummary]       = useState(null)
   const [habitsSummary, setHabitsSummary] = useState([])
+  const [recipes,       setRecipes]       = useState([])
+  const [pendingHabits, setPendingHabits] = useState([])
 
   const { month, year } = getCurrentMonthYear()
 
@@ -43,6 +47,15 @@ function App() {
     setHabitLogs(logs)
   }
 
+  const loadRecipes = () =>
+    api.get('/recipes').then(setRecipes).catch(console.error)
+
+  const loadPendingHabits = async () => {
+    const pending = await api.get('/habits/pending-today').catch(() => [])
+    setPendingHabits(pending)
+    return pending
+  }
+
   const loadDashboard = async () => {
     const [sum, habsum, tx] = await Promise.all([
       api.get('/dashboard/summary', { month, year }).catch(() => null),
@@ -54,13 +67,33 @@ function App() {
     setTransactions(tx)
   }
 
-  useEffect(() => { loadCategories() }, [])
+  useEffect(() => {
+    loadCategories()
+    loadPendingHabits().then((pending) => {
+      if (!pending.length) return
+      if (!('Notification' in window)) return
+      const fire = () => {
+        if (Notification.permission === 'granted') {
+          new Notification('Desert Ledger 🐫', {
+            body: `Tienes ${pending.length} hábito${pending.length > 1 ? 's' : ''} pendiente${pending.length > 1 ? 's' : ''} hoy: ${pending.map(h => h.name).join(', ')}`,
+            icon: '/favicon.ico',
+          })
+        }
+      }
+      if (Notification.permission === 'default') {
+        Notification.requestPermission().then(p => { if (p === 'granted') fire() })
+      } else {
+        fire()
+      }
+    })
+  }, [])
 
   useEffect(() => {
     if (page === 'dashboard')    loadDashboard()
     if (page === 'transactions') { loadTransactions(); loadCategories() }
     if (page === 'budgets')      { loadBudgets(); loadTransactions(); loadCategories() }
     if (page === 'habits')       loadHabits()
+    if (page === 'recipes')      loadRecipes()
     if (page === 'settings')     loadCategories()
   }, [page])
 
@@ -103,7 +136,20 @@ function App() {
   }
   const toggleHabitLog = async (habitId, data) => {
     await api.post(`/habits/${habitId}/logs`, data)
-    await loadHabits()
+    await Promise.all([loadHabits(), loadPendingHabits()])
+  }
+
+  const createRecipe = async (data) => {
+    await api.post('/recipes', data)
+    await loadRecipes()
+  }
+  const updateRecipe = async (id, data) => {
+    await api.put(`/recipes/${id}`, data)
+    await loadRecipes()
+  }
+  const deleteRecipe = async (id) => {
+    await api.delete(`/recipes/${id}`)
+    await loadRecipes()
   }
 
   // ── Render ────────────────────────────────────────────────
@@ -115,6 +161,7 @@ function App() {
           summary={summary}
           transactions={transactions}
           habitsSummary={habitsSummary}
+          pendingHabits={pendingHabits}
         />
       case 'transactions':
         return <Transactions
@@ -140,22 +187,31 @@ function App() {
           onDelete={deleteHabit}
           onToggle={toggleHabitLog}
         />
+      case 'reports':
+        return <Reports />
+      case 'recipes':
+        return <Recipes
+          recipes={recipes}
+          onCreate={createRecipe}
+          onUpdate={updateRecipe}
+          onDelete={deleteRecipe}
+        />
       case 'settings':
         return <Settings
           categories={categories}
           onCreate={createCategory}
         />
       default:
-        return <Dashboard summary={summary} transactions={transactions} habitsSummary={habitsSummary} />
+        return <Dashboard summary={summary} transactions={transactions} habitsSummary={habitsSummary} pendingHabits={pendingHabits} />
     }
   }
 
   return (
-    <div className="flex h-screen bg-camel-paper overflow-hidden">
-      <Sidebar currentPage={page} onNavigate={setPage} />
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <TopBar currentPage={page} />
-        <main className="flex-1 overflow-y-auto p-6 paper-texture">
+    <div style={{ display: 'flex', height: '100vh', background: 'var(--paper)', overflow: 'hidden' }}>
+      <Sidebar currentPage={page} onNavigate={setPage} pendingCount={pendingHabits.length} />
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <TopBar currentPage={page} pendingHabits={pendingHabits} onNavigate={setPage} />
+        <main className="tex-grain" style={{ flex: 1, overflowY: 'auto', padding: 24 }}>
           {renderPage()}
         </main>
       </div>

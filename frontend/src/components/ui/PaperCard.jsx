@@ -1,13 +1,14 @@
-import clsx from 'clsx'
-
-export default function PaperCard({ children, className = '', noPadding = false, ...props }) {
+export default function PaperCard({ children, className = '', noPadding = false, style = {}, ...props }) {
   return (
     <div
-      className={clsx(
-        'burned-card',
-        !noPadding && 'p-6',
-        className
-      )}
+      style={{
+        background: 'var(--bone)',
+        border: '1px solid var(--ink)',
+        padding: noPadding ? 0 : 24,
+        position: 'relative',
+        ...style,
+      }}
+      className={className}
       {...props}
     >
       {children}
