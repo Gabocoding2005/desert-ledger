@@ -17,6 +17,9 @@ instance/
 *.sqlite
 *.sqlite3
 
+# App config (contains API keys)
+backend/config.json
+
 # Environment variables
 .env
 .env.local

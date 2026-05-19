@@ -17,6 +17,13 @@ export default function Settings({ categories, onCreate }) {
   const [vaultStatus, setVaultStatus] = useState(null)
   const [vaultMsg,    setVaultMsg]    = useState('')
 
+  // ── Claude API key state ────────────────────────────────────
+  const [claudeInfo,   setClaudeInfo]   = useState(null)
+  const [claudeInput,  setClaudeInput]  = useState('')
+  const [claudeStatus, setClaudeStatus] = useState(null)
+  const [claudeMsg,    setClaudeMsg]    = useState('')
+  const [showKey,      setShowKey]      = useState(false)
+
   // ── Reminder state ─────────────────────────────────────────
   const [reminder,       setReminder]       = useState({ enabled: false, email: '', time: '08:00' })
   const [reminderStatus, setReminderStatus] = useState(null)
@@ -25,6 +32,7 @@ export default function Settings({ categories, onCreate }) {
 
   useEffect(() => {
     api.get('/reminders/settings').then(setReminder).catch(console.error)
+    api.get('/config/claude').then(setClaudeInfo).catch(console.error)
   }, [])
 
   const handleSaveReminder = async () => {
@@ -54,6 +62,35 @@ export default function Settings({ categories, onCreate }) {
       setReminderMsg('❌ Error: ' + (err.message || 'No se pudo enviar'))
     } finally {
       setTestingEmail(false)
+    }
+  }
+
+  const handleSaveClaude = async () => {
+    setClaudeStatus(null)
+    try {
+      const res = await api.post('/config/claude', { api_key: claudeInput })
+      setClaudeInfo(res)
+      setClaudeInput('')
+      setClaudeStatus('ok')
+      setClaudeMsg(`Key guardada · ${res.masked_key}`)
+    } catch (err) {
+      setClaudeStatus('error')
+      setClaudeMsg(err.message || 'Error al guardar')
+    }
+  }
+
+  const handleDeleteClaude = async () => {
+    if (!confirm('¿Eliminar la API key guardada?')) return
+    setClaudeStatus(null)
+    try {
+      const res = await api.delete('/config/claude')
+      setClaudeInfo(res)
+      setClaudeInput('')
+      setClaudeStatus('ok')
+      setClaudeMsg(res.configured ? `Se eliminó la key del archivo. Usando variable de entorno (${res.masked_key}).` : 'Key eliminada.')
+    } catch {
+      setClaudeStatus('error')
+      setClaudeMsg('Error al eliminar')
     }
   }
 
@@ -176,6 +213,72 @@ export default function Settings({ categories, onCreate }) {
         {reminderStatus && (
           <p className={`mt-3 text-sm font-body ${reminderStatus === 'ok' ? 'text-income-color' : 'text-expense-color'}`}>
             {reminderMsg}
+          </p>
+        )}
+      </PaperCard>
+
+      {/* Claude API Key */}
+      <PaperCard className="mb-6">
+        <div className="flex items-center gap-3 mb-4">
+          <span className="text-2xl">🤖</span>
+          <h4 className="font-display font-bold text-xl text-camel-tobacco uppercase">Claude API Key</h4>
+        </div>
+
+        {claudeInfo && (
+          <div className="mb-4 flex items-center gap-3">
+            <span
+              className="inline-block w-2 h-2 rounded-full"
+              style={{ background: claudeInfo.configured ? 'var(--olive)' : 'var(--terracotta)' }}
+            />
+            <span className="font-body text-sm text-camel-charcoal">
+              {claudeInfo.configured
+                ? <>Configurada · <code className="font-mono text-xs bg-camel-dust px-1">{claudeInfo.masked_key}</code>
+                    {claudeInfo.source === 'env' && <span className="ml-1 opacity-50">(variable de entorno)</span>}
+                    {claudeInfo.source === 'file' && <span className="ml-1 opacity-50">(guardada en app)</span>}
+                  </>
+                : 'No configurada — las funciones de IA no estarán disponibles'
+              }
+            </span>
+          </div>
+        )}
+
+        <p className="font-body text-sm text-camel-charcoal mb-4">
+          Requerida para escanear recibos y extraer recetas automáticamente.
+          Obtén tu key en{' '}
+          <span className="font-mono text-xs bg-camel-dust px-1">console.anthropic.com</span>.
+        </p>
+
+        <div className="flex gap-3 items-start mb-3">
+          <div className="flex-1 relative">
+            <input
+              type={showKey ? 'text' : 'password'}
+              value={claudeInput}
+              onChange={e => { setClaudeInput(e.target.value); setClaudeStatus(null) }}
+              placeholder="sk-ant-..."
+              className="w-full px-4 py-2 border-2 border-camel-tobacco bg-camel-cream font-mono text-sm text-camel-charcoal outline-none"
+              style={{ borderRadius: 'var(--radius-md)' }}
+            />
+            <button
+              type="button"
+              onClick={() => setShowKey(v => !v)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 font-body text-xs text-camel-tobacco opacity-50 hover:opacity-100"
+            >
+              {showKey ? 'ocultar' : 'ver'}
+            </button>
+          </div>
+          <RetroButton onClick={handleSaveClaude} disabled={!claudeInput.trim()}>
+            Guardar
+          </RetroButton>
+          {claudeInfo?.source === 'file' && (
+            <RetroButton variant="secondary" onClick={handleDeleteClaude}>
+              Eliminar
+            </RetroButton>
+          )}
+        </div>
+
+        {claudeStatus && (
+          <p className={`text-sm font-body ${claudeStatus === 'ok' ? 'text-income-color' : 'text-expense-color'}`}>
+            {claudeStatus === 'ok' ? '✅' : '❌'} {claudeMsg}
           </p>
         )}
       </PaperCard>

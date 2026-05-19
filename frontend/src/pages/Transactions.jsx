@@ -3,11 +3,13 @@ import PaperCard from '../components/ui/PaperCard'
 import RetroButton from '../components/ui/RetroButton'
 import TransactionRow from '../components/finance/TransactionRow'
 import TransactionModal from '../components/finance/TransactionModal'
+import ReceiptScanModal from '../components/finance/ReceiptScanModal'
 
 export default function Transactions({ transactions, categories, onCreate, onUpdate, onDelete }) {
-  const [showModal, setShowModal]   = useState(false)
-  const [editingTx, setEditingTx]   = useState(null)
-  const [typeFilter, setTypeFilter] = useState('all')
+  const [showModal, setShowModal]       = useState(false)
+  const [showScanModal, setShowScanModal] = useState(false)
+  const [editingTx, setEditingTx]       = useState(null)
+  const [typeFilter, setTypeFilter]     = useState('all')
 
   const handleEdit = (tx) => { setEditingTx(tx); setShowModal(true) }
 
@@ -48,7 +50,21 @@ export default function Transactions({ transactions, categories, onCreate, onUpd
               </button>
             ))}
           </div>
-          <RetroButton onClick={() => setShowModal(true)}>+ New Transaction</RetroButton>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setShowScanModal(true)}
+              className="px-4 py-2 font-body font-semibold border-2 transition-colors"
+              style={{
+                borderColor:  'var(--terracotta)',
+                color:        'var(--terracotta)',
+                background:   'transparent',
+                borderRadius: 'var(--radius-sm)',
+              }}
+            >
+              Escanear Recibo
+            </button>
+            <RetroButton onClick={() => setShowModal(true)}>+ New Transaction</RetroButton>
+          </div>
         </div>
 
         {filtered.length > 0 ? (
@@ -70,6 +86,14 @@ export default function Transactions({ transactions, categories, onCreate, onUpd
           categories={categories}
           onSave={handleSave}
           onClose={() => { setShowModal(false); setEditingTx(null) }}
+        />
+      )}
+
+      {showScanModal && (
+        <ReceiptScanModal
+          categories={categories}
+          onSave={async (data) => { await onCreate(data); setShowScanModal(false) }}
+          onClose={() => setShowScanModal(false)}
         />
       )}
     </div>

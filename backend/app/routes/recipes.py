@@ -1,9 +1,9 @@
-import os
 import json
 from flask import Blueprint, request, jsonify
 from app.extensions import db
 from app.models.recipe import Recipe
 from app.schemas.recipe import recipe_schema, recipes_schema
+from app.claude_key import get_api_key
 
 bp = Blueprint('recipes', __name__, url_prefix='/api/recipes')
 
@@ -73,9 +73,9 @@ def extract_recipe():
     if not text:
         return jsonify({'error': 'Se requiere el campo "text"'}), 400
 
-    api_key = os.environ.get('ANTHROPIC_API_KEY')
+    api_key = get_api_key()
     if not api_key:
-        return jsonify({'error': 'ANTHROPIC_API_KEY no configurada'}), 500
+        return jsonify({'error': 'API key de Claude no configurada. Ve a Configuración para agregarla.'}), 500
 
     try:
         import anthropic

@@ -16,6 +16,7 @@ App web personal para trackear finanzas, hábitos y recetas.
 | **Habits** | Tracking diario de hábitos con rachas y % de cumplimiento |
 | **Reports** | Reporte mensual con gráficas de tendencia y hábitos. Navegación por meses |
 | **Recipes** | Recetario personal. Creación manual o extracción automática desde texto con Claude AI |
+| **Receipt Scanner** | Sube una foto de un ticket y Claude extrae monto, descripción y fecha automáticamente |
 | **Settings** | Gestión de categorías y configuración del vault de Obsidian |
 
 ---
@@ -89,7 +90,7 @@ FLASK_DEBUG=1
 ANTHROPIC_API_KEY=tu_api_key_aqui   # Requerida para extracción de recetas con Claude
 ```
 
-La API key de Anthropic es opcional. Sin ella, el módulo de Recetas funciona en modo manual solamente. Obtener en: https://console.anthropic.com
+La API key de Anthropic es opcional. Sin ella, el módulo de Recetas funciona en modo manual solamente y el escáner de recibos no estará disponible. Obtener en: https://console.anthropic.com
 
 ---
 
@@ -134,6 +135,7 @@ perroApp/
 │   │   │   ├── habit_logs.py
 │   │   │   ├── dashboard.py
 │   │   │   ├── recipes.py      # CRUD + /extract con Claude API
+│   │   │   ├── receipts.py     # /scan — vision con Claude API
 │   │   │   └── obsidian.py     # Export a vault local
 │   │   └── schemas/
 │   ├── requirements.txt
@@ -152,7 +154,7 @@ perroApp/
 │   │   │   ├── Recipes.jsx     # CRUD + filtro por tag
 │   │   │   └── Settings.jsx    # Categorías + config Obsidian
 │   │   ├── components/
-│   │   │   ├── finance/
+│   │   │   ├── finance/        # TransactionModal, ReceiptScanModal
 │   │   │   ├── habits/
 │   │   │   ├── recipes/        # RecipeCard, RecipeModal
 │   │   │   ├── layout/         # Sidebar (con badge pendientes), TopBar (campana)
@@ -223,6 +225,21 @@ Al iniciar el contenedor se ejecutan tres pasos en orden:
 | PUT | `/api/recipes/<id>` | Editar |
 | DELETE | `/api/recipes/<id>` | Eliminar |
 | POST | `/api/recipes/extract` | Extraer receta estructurada de texto libre (Claude API) |
+
+### Receipts
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| POST | `/api/receipts/scan` | Extrae datos de transacción desde imagen de recibo (Claude vision) |
+
+El endpoint recibe `multipart/form-data` con el campo `image` (JPG, PNG o WebP) y devuelve:
+```json
+{
+  "amount": 150.00,
+  "description": "OXXO Insurgentes",
+  "date": "2026-05-18",
+  "category_suggestion": "Supermercado"
+}
+```
 
 ### Obsidian
 | Método | Ruta | Descripción |

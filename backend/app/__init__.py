@@ -15,7 +15,7 @@ def create_app(config_class=Config):
     CORS(app)
 
     # Register blueprints
-    from app.routes import transactions, categories, budgets, habits, habit_logs, dashboard, recipes, obsidian, reminders
+    from app.routes import transactions, categories, budgets, habits, habit_logs, dashboard, recipes, obsidian, reminders, receipts, config
 
     app.register_blueprint(transactions.bp)
     app.register_blueprint(categories.bp)
@@ -26,6 +26,8 @@ def create_app(config_class=Config):
     app.register_blueprint(recipes.bp)
     app.register_blueprint(obsidian.bp)
     app.register_blueprint(reminders.bp)
+    app.register_blueprint(receipts.bp)
+    app.register_blueprint(config.bp)
 
     from app.scheduler import init_scheduler
     init_scheduler(app)
