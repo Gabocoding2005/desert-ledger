@@ -7,7 +7,12 @@ const r = async (method, path, body) => {
     opts.body = JSON.stringify(body)
   }
   const res = await fetch(BASE + path, opts)
-  if (!res.ok) throw new Error(`${res.status}`)
+  if (!res.ok) {
+    const text = await res.text()
+    let msg = `${res.status}`
+    try { msg = JSON.parse(text)?.error || msg } catch {}
+    throw new Error(msg)
+  }
   const text = await res.text()
   return text ? JSON.parse(text) : null
 }

@@ -7,3 +7,4 @@ marshmallow-sqlalchemy==1.1.*
 python-dotenv==1.0.*
 psycopg2-binary==2.9.*
 APScheduler==3.10.*
+anthropic>=0.40.0

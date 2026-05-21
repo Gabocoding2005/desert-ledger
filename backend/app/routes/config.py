@@ -34,7 +34,9 @@ def get_claude_config():
 
 @bp.route('/claude', methods=['POST'])
 def save_claude_config():
-    data = request.get_json()
+    data = request.get_json(force=True, silent=True)
+    if not data:
+        return jsonify({'error': 'Cuerpo de la petición inválido'}), 400
     key = (data.get('api_key') or '').strip()
 
     if not key:
