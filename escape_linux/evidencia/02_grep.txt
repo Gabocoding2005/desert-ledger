@@ -1,0 +1,8 @@
+=== EVIDENCIA 02: BÚSQUEDA CON GREP ===
+Fri May 29 13:49:48 UTC 2026
+ALUMNO_ID=gabrielsosaleal
+--- Comando usado ---
+grep -rn 'FRAGMENTO' reto_02/
+--- Resultado ---
+reto_02/archivo_3.txt:31:FRAGMENTO: F2=DOMINA
+reto_02/README.md:2:Busca la palabra clave FRAGMENTO dentro de los archivos de este directorio.

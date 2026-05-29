@@ -1,0 +1,15 @@
+=== EVIDENCIA 06: COMPRESIÓN TAR ===
+Fri May 29 13:50:05 UTC 2026
+ALUMNO_ID=gabrielsosaleal
+--- Comandos usados ---
+tar -tzf reto_06/paquete.tar.gz
+tar -xzf reto_06/paquete.tar.gz -C reto_06/
+cat reto_06/datos/fragmento.txt
+--- Resultado ---
+datos/
+datos/relleno2.txt
+datos/relleno1.txt
+datos/fragmento.txt
+---
+F6=COMANDO
+F6=COMANDO

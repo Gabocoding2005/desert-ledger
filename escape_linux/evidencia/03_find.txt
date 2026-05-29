@@ -1,0 +1,7 @@
+=== EVIDENCIA 03: BÚSQUEDA CON FIND ===
+Fri May 29 13:49:48 UTC 2026
+ALUMNO_ID=gabrielsosaleal
+--- Comando usado ---
+find reto_03/ -name 'clave.txt'
+--- Resultado ---
+reto_03/alfa/beta/gamma/delta/clave.txt

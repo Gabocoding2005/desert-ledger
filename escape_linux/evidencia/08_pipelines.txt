@@ -1,0 +1,12 @@
+=== EVIDENCIA 08: REDIRECCIÓN Y PIPELINES ===
+Fri May 29 13:50:13 UTC 2026
+ALUMNO_ID=gabrielsosaleal
+--- Comandos usados ---
+awk '$1%42==0' reto_08/numeros.txt | sort -n
+base64 -d reto_08/multiplos.b64
+--- Resultado ---
+Múltiplos de 42:
+42 84 126 168 210 252 294 336 378 420 462 
+Fragmento decodificado:
+F8=CONQUISTA
+F8=CONQUISTA

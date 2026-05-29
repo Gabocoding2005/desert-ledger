@@ -1,0 +1,19 @@
+=== EVIDENCIA 07: RENOMBRADO Y EXTENSIONES ===
+Fri May 29 13:50:05 UTC 2026
+ALUMNO_ID=gabrielsosaleal
+--- Comandos usados ---
+ls -la reto_07/
+mv reto_07/secreto.enc reto_07/secreto.txt
+cat reto_07/secreto.txt
+--- Resultado ---
+total 28
+drwxr-xr-x  2 root root 4096 May 29 13:50 .
+drwxr-xr-x 13 root root 4096 May 29 13:48 ..
+-rw-r--r--  1 root root  239 May 29 13:49 README.md
+-rw-r--r--  1 root root   19 May 29 13:49 otro.txt
+-rw-r--r--  1 root root    5 May 29 13:49 secreto.enc
+-rw-r--r--  1 root root    5 May 29 13:50 secreto.txt
+-rw-r--r--  1 root root   19 May 29 13:49 vacio.txt
+---
+F7=Y
+F7=Y

@@ -1,0 +1,15 @@
+=== EVIDENCIA 04: PERMISOS ===
+Fri May 29 13:49:56 UTC 2026
+ALUMNO_ID=gabrielsosaleal
+--- Comando usado ---
+ls -l reto_04/   # buscar archivo con rw-r--r-- (644)
+cat reto_04/accesible.txt
+--- Resultado ---
+total 16
+-rw-r--r-- 1 root root 148 May 29 13:49 README.md
+-rw-r--r-- 1 root root   8 May 29 13:49 accesible.txt
+---------- 1 root root  11 May 29 13:49 bloqueado1.txt
+---------- 1 root root  11 May 29 13:49 bloqueado2.txt
+---
+F4=ARTE
+F4=ARTE

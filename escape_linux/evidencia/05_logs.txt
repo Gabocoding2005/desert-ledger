@@ -1,0 +1,9 @@
+=== EVIDENCIA 05: ANÁLISIS DE LOGS ===
+Fri May 29 13:49:56 UTC 2026
+ALUMNO_ID=gabrielsosaleal
+--- Comando usado ---
+grep 'CRITICO' reto_05/sistema.log
+wc -l reto_05/sistema.log  (total de líneas)
+--- Resultado ---
+1000 reto_05/sistema.log
+2026-05-29 12:34:56 [CRITICO] F5=DEL sistema comprometido

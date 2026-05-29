@@ -1,0 +1,16 @@
+=== EVIDENCIA 01: ARCHIVOS OCULTOS ===
+Fri May 29 13:49:41 UTC 2026
+ALUMNO_ID=gabrielsosaleal
+--- Comando usado ---
+ls -la reto_01/
+cat reto_01/.secreto
+--- Resultado ---
+total 24
+drwxr-xr-x  2 root root 4096 May 29 13:49 .
+drwxr-xr-x 13 root root 4096 May 29 13:48 ..
+-rw-r--r--  1 root root    9 May 29 13:49 .secreto
+-rw-r--r--  1 root root   12 May 29 13:49 .trampa
+-rw-r--r--  1 root root  157 May 29 13:49 README.md
+-rw-r--r--  1 root root   40 May 29 13:49 visible.txt
+F1=LINUX
+F1=LINUX

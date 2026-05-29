@@ -1,0 +1,7 @@
+=== EVIDENCIA 00: IDENTIDAD Y TOKENS ===
+Fri May 29 13:49:41 UTC 2026
+ALUMNO_ID=gabrielsosaleal
+TOKEN_LEN=15
+TOKEN_MD5=76523e90
+TOKEN_SUM=1578
+EMAIL=gabrielsosaleal@gmail.com
