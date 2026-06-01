@@ -1,0 +1,81 @@
+======================================================
+  EVIDENCIA DE SETUP — Proyecto Final SO
+======================================================
+Equipo   : COBRA_REAL
+Fecha    : Mon Jun  1 05:46:36 UTC 2026
+Usuario  : root
+Hostname : vm
+
+--- Sistema Operativo ---
+Linux vm 6.18.5 #2 SMP PREEMPT_DYNAMIC Wed Jan 14 17:56:08 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+
+--- Directorio de trabajo ---
+/home/user/desert-ledger/SO-starter
+
+--- Estructura del proyecto ---
+.
+./ALUMNOS.md
+./INSTRUCCIONES_PROYECTO.md
+./RUBRICA.md
+./Verificacion.md
+./backups
+./config.conf
+./datos_empresa
+./datos_empresa/clientes.csv
+./datos_empresa/empleados.csv
+./evidencia
+./evidencia/setup_estructura.txt
+./logs
+./logs/README_LOGS.md
+./logs/access.log
+./logs/error.log
+./reportes
+./scripts
+./scripts/analizar_access.sh
+./scripts/analizar_error.sh
+./scripts/backup.sh
+./scripts/lib.sh
+./scripts/menu.sh
+./scripts/reporte_final.sh
+./scripts/rotar_backups.sh
+./scripts/setup.sh
+./sitio_web
+./sitio_web/css
+./sitio_web/img
+./sitio_web/js
+
+--- Permisos de scripts ---
+total 64
+drwxr-xr-x 2 root root  4096 Jun  1 05:45 .
+drwxr-xr-x 9 root root  4096 Jun  1 05:46 ..
+-rwxr-xr-x 1 root root  7597 Jun  1 05:43 analizar_access.sh
+-rwxr-xr-x 1 root root  5897 Jun  1 05:44 analizar_error.sh
+-rwxr-xr-x 1 root root  3335 Jun  1 05:42 backup.sh
+-rwxr-xr-x 1 root root  3607 Jun  1 05:36 lib.sh
+-rwxr-xr-x 1 root root  3771 Jun  1 05:45 menu.sh
+-rwxr-xr-x 1 root root 12508 Jun  1 05:45 reporte_final.sh
+-rwxr-xr-x 1 root root  3497 Jun  1 05:43 rotar_backups.sh
+-rwxr-xr-x 1 root root  5372 Jun  1 05:42 setup.sh
+
+--- Variables de configuración activas ---
+SITIO_WEB    = sitio_web
+DATOS_EMPRESA= datos_empresa
+BACKUPS_DIR  = backups
+LOGS_DIR     = logs
+EVIDENCIA_DIR= evidencia
+REPORTES_DIR = reportes
+MAX_BACKUPS  = 3
+ACCESS_LOG   = logs/access.log
+ERROR_LOG    = logs/error.log
+
+--- Archivos en sitio_web ---
+
+--- Logs disponibles ---
+total 64K
+-rw-r--r-- 1 root root 2.3K Jun  1 05:45 README_LOGS.md
+-rw-r--r-- 1 root root  43K Jun  1 05:41 access.log
+-rw-r--r-- 1 root root  13K Jun  1 05:42 error.log
+
+--- Espacio en disco ---
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vda        252G  7.1G   30G  20% /

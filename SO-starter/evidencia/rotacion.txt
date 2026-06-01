@@ -1,0 +1,17 @@
+======================================================
+  EVIDENCIA DE ROTACIÓN DE BACKUPS
+======================================================
+Equipo            : COBRA_REAL
+Fecha             : Mon Jun  1 05:47:07 UTC 2026
+MAX_BACKUPS       : 3
+Backups antes     : 4
+Backups eliminados: 1
+Backups después   : 3
+
+--- Backups conservados ---
+2026-06-01+05:47:04.8891229750 backup_sitio_20260601_054704.tar.gz  (1088 bytes)
+2026-06-01+05:47:05.9251230370 backup_sitio_20260601_054705.tar.gz  (1088 bytes)
+2026-06-01+05:47:06.9651230990 backup_sitio_20260601_054706.tar.gz  (1088 bytes)
+
+--- Uso de disco en backups ---
+16K	backups

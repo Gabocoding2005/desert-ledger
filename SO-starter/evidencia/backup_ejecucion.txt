@@ -1,0 +1,39 @@
+======================================================
+  EVIDENCIA DE BACKUP
+======================================================
+Equipo    : COBRA_REAL
+Fecha     : Mon Jun  1 05:47:06 UTC 2026
+Archivo   : backups/backup_sitio_20260601_054706.tar.gz
+Tamaño    : 4.0K
+Archivos  : 19
+
+--- Contenido del backup ---
+sitio_web/
+sitio_web/blog/
+sitio_web/blog/entrada-1.html
+sitio_web/blog/entrada-2.html
+sitio_web/blog/index.html
+sitio_web/img/
+sitio_web/img/.gitkeep
+sitio_web/index.html
+sitio_web/contacto.html
+sitio_web/nosotros.html
+sitio_web/css/
+sitio_web/css/style.css
+sitio_web/gracias.html
+sitio_web/servicios.html
+sitio_web/robots.txt
+sitio_web/productos.html
+sitio_web/precios.html
+sitio_web/js/
+sitio_web/js/app.js
+
+--- Backups en backups ---
+total 16K
+-rw-r--r-- 1 root root 1.1K Jun  1 05:47 backup_sitio_20260601_054701.tar.gz
+-rw-r--r-- 1 root root 1.1K Jun  1 05:47 backup_sitio_20260601_054704.tar.gz
+-rw-r--r-- 1 root root 1.1K Jun  1 05:47 backup_sitio_20260601_054705.tar.gz
+-rw-r--r-- 1 root root 1.1K Jun  1 05:47 backup_sitio_20260601_054706.tar.gz
+
+--- Hash MD5 del backup ---
+c9196112a3b587bc05b83e1c909da3d2  backups/backup_sitio_20260601_054706.tar.gz

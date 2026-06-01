@@ -1,0 +1,33 @@
+======================================================
+  EVIDENCIA DE CONFIGURACIÓN CRON
+======================================================
+Equipo : COBRA_REAL
+Fecha  : Mon Jun  1 05:48:31 UTC 2026
+
+--- Crontab actual del usuario root ---
+(sin tareas programadas actualmente)
+
+--- Tareas recomendadas para este proyecto ---
+# Respaldo diario a las 02:00 AM
+0 2 * * * cd /ruta/SO-starter && ./scripts/backup.sh >> logs/cron_backup.log 2>&1
+
+# Rotación de backups: lunes a las 02:30 AM
+30 2 * * 1 cd /ruta/SO-starter && ./scripts/rotar_backups.sh >> logs/cron_rotar.log 2>&1
+
+# Análisis diario de logs a las 06:00 AM
+0 6 * * * cd /ruta/SO-starter && ./scripts/analizar_access.sh >> logs/cron_access.log 2>&1
+0 6 * * * cd /ruta/SO-starter && ./scripts/analizar_error.sh  >> logs/cron_error.log  2>&1
+
+# Reporte final los viernes a las 07:00 AM
+0 7 * * 5 cd /ruta/SO-starter && ./scripts/reporte_final.sh   >> logs/cron_reporte.log 2>&1
+
+--- Cómo agregar las tareas ---
+  crontab -e   (abre el editor de crontab)
+
+--- Sintaxis cron ---
+  * * * * * comando
+  │ │ │ │ └── día de la semana (0=dom, 1=lun, ..., 6=sab)
+  │ │ │ └──── mes (1-12)
+  │ │ └────── día del mes (1-31)
+  │ └──────── hora (0-23)
+  └────────── minuto (0-59)

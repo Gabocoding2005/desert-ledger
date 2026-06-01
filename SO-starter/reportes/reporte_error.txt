@@ -1,0 +1,153 @@
+======================================================
+  REPORTE DE ANÁLISIS — error.log
+======================================================
+Equipo   : COBRA_REAL
+Archivo  : logs/error.log
+Generado : Mon Jun  1 05:48:26 UTC 2026
+
+[1. RESUMEN GENERAL]
+──────────────────────────────────────────────────
+Total de líneas en error.log : 74
+
+[2. ERRORES POR NIVEL DE SEVERIDAD]
+──────────────────────────────────────────────────
+  (emerg > alert > crit > error > warn > notice > info)
+
+  crit     →    1 líneas
+  error    →   52 líneas
+  warn     →   10 líneas
+  notice   →   11 líneas
+
+[3. ERRORES CRÍTICOS Y GRAVES (crit / error)]
+──────────────────────────────────────────────────
+  [Thu May 01 10:31:45.654321 2025] [core:error] [pid 12302] [client 192.168.1.15:54421] AH01276: Cannot serve directory /var/www/html/uploads/: No index, add 'Options +Indexes' or add a directory index
+  [Fri May 02 14:10:15.789012 2025] [authz_core:error] [pid 12305] [client 66.249.73.125:55001] AH01630: client denied by server configuration: /var/www/html/blog/entrada-3.html
+  [Sat May 03 09:15:33.222333 2025] [php:error] [pid 12310] [client 192.168.1.15:54600] PHP Fatal error: Uncaught PDOException: SQLSTATE[HY000] [2002] Connection refused in /var/www/html/lib/database.php:45
+  [Sat May 03 09:15:34.333444 2025] [php:error] [pid 12311] [client 192.168.1.15:54601] PHP Fatal error: Uncaught PDOException: SQLSTATE[HY000] [2002] Connection refused in /var/www/html/lib/database.php:45
+  [Sun May 04 06:30:50.111222 2025] [core:error] [pid 12320] [client 40.77.167.140:56001] AH01630: client denied by server configuration: /var/www/html/.git/config
+  [Wed May 07 14:22:33.444555 2025] [php:error] [pid 12350] [client 192.168.1.15:54900] PHP Fatal error: Allowed memory size of 134217728 bytes exhausted (tried to allocate 20480 bytes) in /var/www/html/admin/reportes.php on line 156
+  [Wed May 07 14:22:33.555666 2025] [core:error] [pid 12350] [client 192.168.1.15:54900] End of script output before headers: reportes.php
+  [Fri May 09 09:11:30.234567 2025] [authz_core:error] [pid 12370] [client 192.168.1.10:55200] AH01630: client denied by server configuration: /var/www/html/dashboard
+  [Fri May 09 09:20:15.345678 2025] [authz_core:error] [pid 12371] [client 192.168.1.10:55201] AH01630: client denied by server configuration: /var/www/html/admin/reportes
+  [Sun May 11 02:14:56.567890 2025] [authz_core:error] [pid 12390] [client 45.33.32.156:56100] AH01630: client denied by server configuration: /var/www/html/.env
+  [Sun May 11 02:14:56.678901 2025] [authz_core:error] [pid 12391] [client 45.33.32.156:56101] AH01630: client denied by server configuration: /var/www/html/.git/config
+  [Sun May 11 02:14:56.789012 2025] [authz_core:error] [pid 12392] [client 45.33.32.156:56102] AH01630: client denied by server configuration: /var/www/html/.htpasswd
+  [Sun May 11 02:14:57.890123 2025] [authz_core:error] [pid 12393] [client 45.33.32.156:56103] AH01630: client denied by server configuration: /var/www/html/server-status
+  [Sun May 11 02:14:57.901234 2025] [authz_core:error] [pid 12394] [client 45.33.32.156:56104] AH01630: client denied by server configuration: /var/www/html/server-info
+  [Sun May 11 02:14:58.012345 2025] [authz_core:error] [pid 12395] [client 45.33.32.156:56105] AH01630: client denied by server configuration: /var/www/html/tmp/
+  [Sun May 11 02:14:58.123456 2025] [authz_core:error] [pid 12396] [client 45.33.32.156:56106] AH01630: client denied by server configuration: /var/www/html/cgi-bin/
+  [Sun May 11 02:14:58.234567 2025] [php:error] [pid 12397] [client 45.33.32.156:56107] PHP Parse error: syntax error, unexpected '1' in /var/www/html/index.php(1) : eval()'d code on line 1
+  [Sun May 11 02:14:58.345678 2025] [php:error] [pid 12398] [client 45.33.32.156:56108] PHP Fatal error: SQL injection attempt detected and blocked in /var/www/html/lib/database.php on line 78
+  [Sun May 11 02:14:58.456789 2025] [php:error] [pid 12399] [client 45.33.32.156:56109] PHP Fatal error: SQL injection attempt detected and blocked in /var/www/html/lib/database.php on line 78
+  [Tue May 13 03:22:06.123456 2025] [authz_core:error] [pid 12420] [client 185.220.101.34:57001] AH01630: client denied by server configuration: /var/www/html/login
+
+[4. ERRORES PHP]
+──────────────────────────────────────────────────
+Total de errores PHP: 22
+
+  PHP Fatal errors:
+    Cantidad: 12
+    09:15:33.222333 2025] [php:error] [pid 12310] [client 192.168.1.15:54600] PHP Fatal error: Uncaught PDOException: SQLSTATE[HY000] [2002] Connection refused in /var/www/html/lib/database.php:45 
+    09:15:34.333444 2025] [php:error] [pid 12311] [client 192.168.1.15:54601] PHP Fatal error: Uncaught PDOException: SQLSTATE[HY000] [2002] Connection refused in /var/www/html/lib/database.php:45 
+    14:22:33.444555 2025] [php:error] [pid 12350] [client 192.168.1.15:54900] PHP Fatal error: Allowed memory size of 134217728 bytes exhausted (tried to allocate 20480 bytes) in /var/www/html/admin/reportes.php on line 156 
+    02:14:58.345678 2025] [php:error] [pid 12398] [client 45.33.32.156:56108] PHP Fatal error: SQL injection attempt detected and blocked in /var/www/html/lib/database.php on line 78 
+    02:14:58.456789 2025] [php:error] [pid 12399] [client 45.33.32.156:56109] PHP Fatal error: SQL injection attempt detected and blocked in /var/www/html/lib/database.php on line 78 
+    08:30:05.901234 2025] [php:error] [pid 12430] [client 192.168.1.10:55400] PHP Fatal error: Uncaught Error: Call to undefined function conectar_db() in /var/www/html/admin/usuarios.php on line 22 
+    16:10:00.567890 2025] [php:error] [pid 12460] [client 192.168.1.10:55500] PHP Fatal error: Maximum execution time of 30 seconds exceeded in /var/www/html/admin/exportar.php on line 89 
+    10:00:01.678901 2025] [php:error] [pid 12470] [client 10.0.0.5:58001] PHP Fatal error: Uncaught PDOException: SQLSTATE[HY000] [2002] Connection refused in /var/www/html/lib/database.php:45 
+
+  PHP Warnings:
+    Cantidad: 7
+
+  Archivos PHP con errores frecuentes:
+     7  /var/www/html/lib/database.php
+     3  /var/www/html/index.php
+     2  /var/www/html/login.php
+     2  /var/www/html/admin/estadisticas.php
+     1  /var/www/html/nosotros.php
+     1  /var/www/html/lib/utils.php
+     1  /var/www/html/config.php
+     1  /var/www/html/blog/entrada.php
+
+[5. ERRORES DE BASE DE DATOS]
+──────────────────────────────────────────────────
+Errores relacionados con DB: 10
+
+  [Sat May 03 09:15:33.222333 2025] [php:error] [pid 12310] [client 192.168.1.15:54600] PHP Fatal error: Uncaught PDOException: SQLSTATE[HY000] [2002] Connection refused in /var/www/html/lib/database.php:45
+  [Sat May 03 09:15:34.333444 2025] [php:error] [pid 12311] [client 192.168.1.15:54601] PHP Fatal error: Uncaught PDOException: SQLSTATE[HY000] [2002] Connection refused in /var/www/html/lib/database.php:45
+  [Sat May 03 09:16:01.444555 2025] [php:notice] [pid 12312] Database reconnection successful after 27 seconds
+  [Sun May 11 02:14:58.345678 2025] [php:error] [pid 12398] [client 45.33.32.156:56108] PHP Fatal error: SQL injection attempt detected and blocked in /var/www/html/lib/database.php on line 78
+  [Sun May 11 02:14:58.456789 2025] [php:error] [pid 12399] [client 45.33.32.156:56109] PHP Fatal error: SQL injection attempt detected and blocked in /var/www/html/lib/database.php on line 78
+  [Sun May 18 10:00:01.678901 2025] [php:error] [pid 12470] [client 10.0.0.5:58001] PHP Fatal error: Uncaught PDOException: SQLSTATE[HY000] [2002] Connection refused in /var/www/html/lib/database.php:45
+  [Sun May 18 10:05:00.789012 2025] [php:notice] [pid 12471] Database reconnection successful
+  [Sun May 25 11:02:00.777888 2025] [php:error] [pid 12530] [client 203.0.113.50:55900] PHP Fatal error: Uncaught Exception: Database query failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'empresa.articulos' doesn't exist in /var/www/html/blog/entrada.php:67
+  [Thu May 29 09:05:00.100200 2025] [php:error] [pid 12560] [client 192.168.1.15:56100] PHP Fatal error: Uncaught PDOException: SQLSTATE[HY000] [2002] Connection refused in /var/www/html/lib/database.php:45
+  [Thu May 29 09:05:00.200300 2025] [php:error] [pid 12561] [client 192.168.1.15:56101] PHP Fatal error: Uncaught PDOException: SQLSTATE[HY000] [2002] Connection refused in /var/www/html/lib/database.php:45
+
+[6. ACCESOS DENEGADOS (authz_core:error)]
+──────────────────────────────────────────────────
+Total de accesos denegados: 35
+
+  IPs con más accesos denegados:
+  185.220.101.34     →   23 denegados
+  45.33.32.156       →    7 denegados
+  192.168.1.10       →    2 denegados
+  66.249.73.125      →    1 denegados
+  40.77.167.140      →    1 denegados
+  203.0.113.50       →    1 denegados
+
+  Rutas más bloqueadas:
+    23  configuration:
+     2  configuration:
+     1  configuration:
+     1  configuration:
+     1  configuration:
+     1  configuration:
+     1  configuration:
+     1  configuration:
+     1  configuration:
+     1  configuration:
+
+[7. REINICIOS / EVENTOS DEL SERVIDOR APACHE]
+──────────────────────────────────────────────────
+  [Thu May 01 12:00:00.000001 2025] [mpm_prefork:notice] [pid 1234] AH00163: Apache/2.4.57 (Ubuntu) configured -- resuming normal operations
+  [Mon May 05 16:20:11.555666 2025] [ssl:warn] [pid 12340] AH01873: Init: Session Cache is not configured [hint: SSLSessionCache]
+  [Tue May 06 08:00:00.000001 2025] [mpm_prefork:notice] [pid 1234] AH00162: Apache/2.4.57 (Ubuntu) graceful restart requested
+  [Tue May 06 08:00:01.111222 2025] [mpm_prefork:notice] [pid 1234] AH00163: Apache/2.4.57 (Ubuntu) configured -- resuming normal operations
+  [Mon May 12 08:00:00.000001 2025] [mpm_prefork:notice] [pid 1234] AH00162: Apache/2.4.57 (Ubuntu) graceful restart requested
+  [Mon May 12 08:00:01.111222 2025] [mpm_prefork:notice] [pid 1234] AH00163: Apache/2.4.57 (Ubuntu) configured -- resuming normal operations
+  [Mon May 19 08:00:00.000001 2025] [mpm_prefork:notice] [pid 1234] AH00162: Apache/2.4.57 (Ubuntu) graceful restart requested
+  [Mon May 19 08:00:01.111222 2025] [mpm_prefork:notice] [pid 1234] AH00163: Apache/2.4.57 (Ubuntu) configured -- resuming normal operations
+  [Mon May 26 08:00:00.000001 2025] [mpm_prefork:notice] [pid 1234] AH00162: Apache/2.4.57 (Ubuntu) graceful restart requested
+  [Mon May 26 08:00:01.111222 2025] [mpm_prefork:notice] [pid 1234] AH00163: Apache/2.4.57 (Ubuntu) configured -- resuming normal operations
+
+[8. ERRORES SSL / TLS]
+──────────────────────────────────────────────────
+Errores SSL/TLS: 3
+  [Mon May 05 16:20:11.555666 2025] [ssl:warn] [pid 12340] AH01873: Init: Session Cache is not configured [hint: SSLSessionCache]
+  [Tue May 20 11:30:00.222333 2025] [ssl:error] [pid 12490] SSL Library Error: error:0A000102:SSL routines::unsupported protocol
+  [Wed May 28 10:00:01.999000 2025] [core:crit] [pid 12550] [client 10.0.0.5:58100] AH03003: SSL handshake failed: An unexpected TLS packet was received.
+
+[9. RECURSOS FALTANTES O CON PROBLEMAS]
+──────────────────────────────────────────────────
+  [Thu May 01 08:05:12.123456 2025] [php:warn] [pid 12301] [client 192.168.1.10:54320] PHP Warning: include(/var/www/html/lib/utils.php): Failed to open stream: No such file or directory in /var/www/html/index.php on line 23
+  [Thu May 01 10:31:45.654321 2025] [core:error] [pid 12302] [client 192.168.1.15:54421] AH01276: Cannot serve directory /var/www/html/uploads/: No index, add 'Options +Indexes' or add a directory index
+  [Mon May 12 11:45:22.567890 2025] [php:warn] [pid 12410] [client 192.168.1.15:55300] PHP Warning: file_get_contents(/var/www/html/cache/datos.json): Failed to open stream: No such file or directory in /var/www/html/api/productos.php on line 34
+  [Thu May 22 13:05:00.444555 2025] [core:error] [pid 12510] [client 192.168.1.15:55700] AH01276: Cannot serve directory /var/www/html/descargas/: No index, add 'Options +Indexes' or add a directory index
+
+[10. ÚLTIMAS 10 ENTRADAS EN ERROR.LOG]
+──────────────────────────────────────────────────
+  [Sat May 24 09:00:05.666777 2025] [php:warn] [pid 12520] [client 192.168.1.10:55800] PHP Warning: Cannot modify header information - headers already sent in /var/www/html/index.php on line 3
+  [Sun May 25 11:02:00.777888 2025] [php:error] [pid 12530] [client 203.0.113.50:55900] PHP Fatal error: Uncaught Exception: Database query failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'empresa.articulos' doesn't exist in /var/www/html/blog/entrada.php:67
+  [Mon May 26 08:00:00.000001 2025] [mpm_prefork:notice] [pid 1234] AH00162: Apache/2.4.57 (Ubuntu) graceful restart requested
+  [Mon May 26 08:00:01.111222 2025] [mpm_prefork:notice] [pid 1234] AH00163: Apache/2.4.57 (Ubuntu) configured -- resuming normal operations
+  [Tue May 27 08:15:00.888999 2025] [php:error] [pid 12540] [client 192.168.1.10:56000] PHP Fatal error: Allowed memory size of 134217728 bytes exhausted (tried to allocate 32768 bytes) in /var/www/html/admin/estadisticas.php on line 312
+  [Wed May 28 10:00:01.999000 2025] [core:crit] [pid 12550] [client 10.0.0.5:58100] AH03003: SSL handshake failed: An unexpected TLS packet was received.
+  [Thu May 29 09:05:00.100200 2025] [php:error] [pid 12560] [client 192.168.1.15:56100] PHP Fatal error: Uncaught PDOException: SQLSTATE[HY000] [2002] Connection refused in /var/www/html/lib/database.php:45
+  [Thu May 29 09:05:00.200300 2025] [php:error] [pid 12561] [client 192.168.1.15:56101] PHP Fatal error: Uncaught PDOException: SQLSTATE[HY000] [2002] Connection refused in /var/www/html/lib/database.php:45
+  [Fri May 30 10:02:00.300400 2025] [core:error] [pid 12570] [client 203.0.113.50:56200] AH01630: client denied by server configuration: /var/www/html/tmp/cache
+  [Fri May 30 15:06:00.400500 2025] [php:warn] [pid 12580] [client 192.168.1.10:56300] PHP Warning: Division by zero in /var/www/html/admin/estadisticas.php on line 145
+
+======================================================
+  FIN DEL REPORTE ERROR.LOG
+======================================================
